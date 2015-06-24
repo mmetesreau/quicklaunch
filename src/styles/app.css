@@ -1,0 +1,27 @@
+div.no-items {
+    display: block;
+}
+
+div.list-group-item + div.no-items {
+    display: none;
+}
+
+.item {
+	word-wrap: break-word;
+}
+
+.medium-width {
+	width: 400px;
+}
+
+.medium-height {
+	height: 400px;
+}
+
+.small-margin {
+	margin:10px;
+}
+
+.small-vertical-margin {
+	margin:10px;
+}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	 	<meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Quick launch Options</title>
+
+		<link href="styles/bootstrap.min.css" rel="stylesheet">
+		<link href="styles/app.css" rel="stylesheet">
+	</head>
+	<body ng-app="app">
+		<div ng-controller="optionsCtrl" class="container">  
+			
+			<ul class="nav nav-tabs small-vertical-margin">
+				<li ng-class="{active: currentTab == 'tabItems'}"><a href="#" ng-click="currentTab = 'tabItems'">Items</a></li>
+				<li ng-class="{active: currentTab == 'tabExport'}"><a href="#" ng-click="currentTab = 'tabExport'">Export</a></li>
+				<li ng-class="{active: currentTab == 'tabImport'}"><a href="#" ng-click="currentTab = 'tabImport'">Import</a></li>
+			</ul>
+
+			<div ng-switch="currentTab">
+				<div ng-switch-when="tabItems">
+					
+					<div class="row">
+						<div class="col-xs-6">
+							<input class="form-control" type="text" ng-model="newItem.uri" placeholder="Uri"/>
+						</div>
+						 <div class="col-xs-5">
+							<input class="form-control" type="text" ng-model="newItem.tags" placeholder="Tags (space separator)" />
+						</div>
+						<div class="col-xs-1">
+							<button ng-click="add(newItem)" class="btn btn-primary pull-right">Add</button>
+						</div>
+					</div>
+
+					<br/>
+					<div class="clearfix"></div>
+					<br/>
+					<input class="form-control" type="text" ng-model="q" placeholder="Search"/>
+					<br/>
+					<div class="list-group">
+						<div ng-repeat="item in items|filter:q" class="list-group-item">
+							<div class="row">
+								<div class="col-xs-6"><input class="form-control" type="text" ng-model="item.uri" placeholder="Uri" /></div>
+								<div class="col-xs-5"><input class="form-control" type="text" ng-model="item.tags" placeholder="Tag" /></div>
+								<div class="col-xs-1">
+									<button ng-click="delete($index)" class="btn btn-danger pull-right">Delete</button>
+								</div>
+							</div>
+						</div>
+						<div class="no-items text-center">
+					     	<b>No items yet :(</b>
+					    </div>
+					</div>
+
+				</div>
+				<div ng-switch-when="tabExport">
+
+					<div class="form-group">
+						<textarea  class="form-control medium-height" ng-model="exportResult"></textarea>
+					</div>
+					<div class="row">
+						<div class="col-xs-1  col-xs-offset-5"><button ng-click="export(items)" class="btn btn-success center-block" >Export</button></div>
+					</div>
+
+				</div>
+				<div ng-switch-when="tabImport">
+
+					<div class="alert alert-info">
+						{{parsedItemPushed}} item(s) added. 
+					</div>
+					<div class="form-group">
+						<textarea  class="form-control medium-height" ng-model="importInput"></textarea>
+					</div>
+					<div class="row">
+						<div class="col-xs-1  col-xs-offset-5"><button ng-click="import(importInput, items)" class="btn btn-success center-block" >Import</button></div>
+					</div>
+					
+
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="scripts/vendors/angular.min.js"></script>
+		<script type="text/javascript" src="scripts/app.js"></script>
+	</body>
+</html>
