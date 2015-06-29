@@ -13,7 +13,7 @@
 		<div ng-controller="mainCtrl" class="small-margin">
 			<input type="text" class="form-control medium-width" ng-model="query" ng-keyup="$event.keyCode == 13 && selectFirst(items,query)" autofocus/>
 			<div class="list-group">
-				<div ng-repeat="item in items | search:query" ng-click="select(item)" class="list-group-item item medium-width" ng-class="{active: $first}">
+				<div ng-repeat="item in items | search:query" ng-click="select(item,query)" class="list-group-item item medium-width" ng-class="{active: $first}">
 					<div >{{item.uri}}</div>
 					<div class="small">{{item.tags}}</div>
 				</div>

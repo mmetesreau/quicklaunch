@@ -15,7 +15,7 @@ div.list-group-item + div.no-items {
 }
 
 .medium-height {
-	height: 400px;
+	height: 400px !important;
 }
 
 .small-margin {

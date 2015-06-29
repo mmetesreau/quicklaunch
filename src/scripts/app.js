@@ -13,15 +13,14 @@
 			 	});
 		});
 
-
 		$scope.selectFirst = function(items, query) {
 			if (items && $filter('search')(items,query).length > 0) {
-				$scope.select($filter('search')(items,query)[0]);
+				$scope.select($filter('search')(items,query)[0], query);
 			}
 		};
 
-		$scope.select = function(item) {
-			$scope.query = '';
+		$scope.select = function(item, query) {
+			query = '';
 			if (item.incognito)
 				chrome.windows.create({"url": item.uri, "incognito": item.incognito});
 			else 
@@ -44,21 +43,22 @@
 			 	});
 		});
 
-		$scope.add = function(newItem) {
-			$scope.items.push({uri: newItem.uri, tags: newItem.tags});
+		$scope.add = function(newItem, items) {
+			items.push({uri: newItem.uri, tags: newItem.tags});
+			chrome.storage.local.set({'items': items || []});
 			newItem.uri = ''; 
 			newItem.tags = ''; 
 		};
 
-		$scope.delete = function(index) {
-			$scope.items.splice(index, 1);
+		$scope.delete = function(index, items) {
+			items.splice(index, 1);
 		};
 
-		$scope.export = function(items) {
-			$scope.exportResult = JSON.stringify(items.map(function(item) { return {uri: item.uri, tags: item.tags}; }),null,"    ");
+		$scope.export = function(items, exportResult) {
+			exportResult = JSON.stringify(items.map(function(item) { return {uri: item.uri, tags: item.tags}; }),null,"    ");
 		};
 
-		$scope.import = function(text, items) {
+		$scope.import = function(text, items, parsedItemPushed) {
 			if (!text)
 				return;
 
@@ -76,11 +76,9 @@
 				}
 			});
 
-			$scope.parsedItemPushed = parsedItemPushed;
-		};
+			chrome.storage.local.set({'items': items || []});
 
-		$scope.save = function(items) {
-			chrome.storage.local.set({'items': $scope.items || []});
+			parsedItemPushed = parsedItemPushed;
 		};
 	}]);
 

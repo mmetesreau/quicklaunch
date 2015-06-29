@@ -29,14 +29,20 @@
 							<input class="form-control" type="text" ng-model="newItem.tags" placeholder="Tags (space separator)" />
 						</div>
 						<div class="col-xs-1">
-							<button ng-click="add(newItem)" class="btn btn-primary pull-right">Add</button>
+							<button ng-click="add(newItem, items)" class="btn btn-primary pull-right">Add</button>
 						</div>
 					</div>
 
 					<br/>
 					<div class="clearfix"></div>
 					<br/>
-					<input class="form-control" type="text" ng-model="q" placeholder="Search"/>
+
+					<div class="row">
+						<div class="col-xs-12">
+							<input class="form-control" type="text" ng-model="q" placeholder="Search"/>
+						</div>
+					</div>
+					
 					<br/>
 					<div class="list-group">
 						<div ng-repeat="item in items|filter:q" class="list-group-item">
@@ -44,7 +50,7 @@
 								<div class="col-xs-6"><input class="form-control" type="text" ng-model="item.uri" placeholder="Uri" /></div>
 								<div class="col-xs-5"><input class="form-control" type="text" ng-model="item.tags" placeholder="Tag" /></div>
 								<div class="col-xs-1">
-									<button ng-click="delete($index)" class="btn btn-danger pull-right">Delete</button>
+									<button ng-click="delete($index, items)" class="btn btn-danger pull-right">Delete</button>
 								</div>
 							</div>
 						</div>
@@ -57,23 +63,23 @@
 				<div ng-switch-when="tabExport">
 
 					<div class="form-group">
-						<textarea  class="form-control medium-height" ng-model="exportResult"></textarea>
+						<textarea class="form-control medium-height" ng-model="exportResult"></textarea>
 					</div>
 					<div class="row">
-						<div class="col-xs-1  col-xs-offset-5"><button ng-click="export(items)" class="btn btn-success center-block" >Export</button></div>
+						<div class="col-xs-1  col-xs-offset-5"><button ng-click="export(items, exportResult)" class="btn btn-success center-block" >Export</button></div>
 					</div>
 
 				</div>
 				<div ng-switch-when="tabImport">
 
 					<div class="alert alert-info">
-						{{parsedItemPushed}} item(s) added. 
+						{{parsedItemPushed}} item(s) added.
 					</div>
 					<div class="form-group">
 						<textarea  class="form-control medium-height" ng-model="importInput"></textarea>
 					</div>
 					<div class="row">
-						<div class="col-xs-1  col-xs-offset-5"><button ng-click="import(importInput, items)" class="btn btn-success center-block" >Import</button></div>
+						<div class="col-xs-1  col-xs-offset-5"><button ng-click="import(importInput, items, parsedItemPushed)" class="btn btn-success center-block" >Import</button></div>
 					</div>
 					
 
