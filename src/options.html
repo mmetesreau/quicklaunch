@@ -99,7 +99,7 @@
 					</div>
 					<div class="row">
 						<div class="col-xs-1  col-xs-offset-5">
-							<button ng-click="ql.suggestions.importAll(importInput)" class="btn btn-success center-block" >Import</button>
+							<button ng-click="ql.suggestions.importAll(importInput);importInput = '';$parent.currentTab = 'tabItems'" class="btn btn-success center-block" >Import</button>
 						</div>
 					</div>
 
