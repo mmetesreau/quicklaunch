@@ -10,10 +10,10 @@
 		<link href="styles/app.css" rel="stylesheet">
 	</head>
 	<body ng-app="app">
-		<div ng-controller="optionsCtrl" class="container">  
+		<div ng-controller="optionsCtrl" class="container" ng-init="currentTab = 'tabItems'">  
 			
 			<ul class="nav nav-tabs small-vertical-margin">
-				<li ng-class="{active: currentTab == 'tabItems'}"><a href="#" ng-click="currentTab = 'tabItems'">Items</a></li>
+				<li ng-class="{active: currentTab == 'tabItems'}"><a href="#" ng-click="currentTab = 'tabItems'">Suggestions</a></li>
 				<li ng-class="{active: currentTab == 'tabExport'}"><a href="#" ng-click="currentTab = 'tabExport'">Export</a></li>
 				<li ng-class="{active: currentTab == 'tabImport'}"><a href="#" ng-click="currentTab = 'tabImport'">Import</a></li>
 			</ul>
@@ -29,7 +29,7 @@
 							<input class="form-control" type="text" ng-model="newItem.tags" placeholder="Tags (space separator)" />
 						</div>
 						<div class="col-xs-1">
-							<button ng-click="add(newItem, items)" class="btn btn-primary pull-right">Add</button>
+							<button ng-click="ql.suggestions.add(newItem);clearInput(newItem)" class="btn btn-primary pull-right">Add</button>
 						</div>
 					</div>
 
@@ -45,17 +45,37 @@
 					
 					<br/>
 					<div class="list-group">
-						<div ng-repeat="item in items|filter:q" class="list-group-item">
-							<div class="row">
-								<div class="col-xs-6"><input class="form-control" type="text" ng-model="item.uri" placeholder="Uri" /></div>
-								<div class="col-xs-5"><input class="form-control" type="text" ng-model="item.tags" placeholder="Tag" /></div>
-								<div class="col-xs-1">
-									<button ng-click="delete($index, items)" class="btn btn-danger pull-right">Delete</button>
+						<div ng-repeat="suggestion in ql.suggestions.all | filter:q track by $index " class="list-group-item">
+							<div class="row" ng-init="currentMode = 'view'">
+								<div ng-switch="currentMode">
+
+									<div ng-switch-when="edit">
+
+										<div class="col-xs-6"><input class="form-control" type="text" ng-model="suggestion.uri" placeholder="Uri" /></div>
+										<div class="col-xs-5"><input class="form-control" type="text" ng-model="suggestion.tags" placeholder="Tag" /></div>
+										<div class="col-xs-1">
+											<button ng-click="ql.suggestions.save();$parent.currentMode = 'view'" class="btn btn-success pull-right">Save</button>
+										</div>
+
+									</div>
+									<div ng-switch-when="view">
+
+										<div class="col-xs-5">{{suggestion.uri}}</div>
+										<div class="col-xs-5">{{suggestion.tags}}</div>
+										<div class="col-xs-1">
+											<button ng-click="$parent.currentMode = 'edit'" class="btn btn-primary pull-right">Edit</button>
+										</div>
+										<div class="col-xs-1">
+											<button ng-click="ql.suggestions.remove($index)" class="btn btn-danger pull-right">Delete</button>
+										</div>
+
+									</div>
+
 								</div>
 							</div>
 						</div>
 						<div class="no-items text-center">
-					     	<b>No items yet :(</b>
+					     	<b>No suggestion yet :(</b>
 					    </div>
 					</div>
 
@@ -66,27 +86,27 @@
 						<textarea class="form-control medium-height" ng-model="exportResult"></textarea>
 					</div>
 					<div class="row">
-						<div class="col-xs-1  col-xs-offset-5"><button ng-click="export(items, exportResult)" class="btn btn-success center-block" >Export</button></div>
+						<div class="col-xs-1  col-xs-offset-5">
+							<button ng-click="exportResult = ql.suggestions.exportAll()" class="btn btn-success center-block" >Export</button>
+						</div>
 					</div>
 
 				</div>
 				<div ng-switch-when="tabImport">
 
-					<div class="alert alert-info">
-						{{parsedItemPushed}} item(s) added.
-					</div>
 					<div class="form-group">
 						<textarea  class="form-control medium-height" ng-model="importInput"></textarea>
 					</div>
 					<div class="row">
-						<div class="col-xs-1  col-xs-offset-5"><button ng-click="import(importInput, items, parsedItemPushed)" class="btn btn-success center-block" >Import</button></div>
+						<div class="col-xs-1  col-xs-offset-5">
+							<button ng-click="ql.suggestions.importAll(importInput)" class="btn btn-success center-block" >Import</button>
+						</div>
 					</div>
-					
 
 				</div>
 			</div>
 		</div>
 		<script type="text/javascript" src="scripts/vendors/angular.min.js"></script>
-		<script type="text/javascript" src="scripts/app.js"></script>
+		<script type="text/javascript" src="scripts/all.js"></script>
 	</body>
 </html>

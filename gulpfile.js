@@ -7,6 +7,7 @@ var gulp = require('gulp'),
 	jshint = require('gulp-jshint'),
 	stripdebug = require('gulp-strip-debug'),
 	uglify = require('gulp-uglify'),
+	concat  = require('gulp-concat'),
 	zip = require('gulp-zip');
 
 //clean build directory
@@ -41,13 +42,14 @@ gulp.task('jshint', function() {
 		.pipe(jshint.reporter('default'));
 });
 
-//copy vendor scripts and uglify all other scripts, creating source maps
+//copy vendor scripts and uglify all other scripts
 gulp.task('scripts', ['jshint'], function() {
 	gulp.src('src/scripts/vendors/**/*.js')
 		.pipe(gulp.dest('build/scripts/vendors'));
 	return gulp.src(['src/scripts/**/*.js', '!src/scripts/vendors/**/*.js'])
 		.pipe(stripdebug())
-		.pipe(uglify({outSourceMap: true}))
+		.pipe(concat('all.js'))
+		//.pipe(uglify({outSourceMap: true}))
 		.pipe(gulp.dest('build/scripts'));
 });
 

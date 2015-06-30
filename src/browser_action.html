@@ -11,15 +11,15 @@
 	</head>
 	<body ng-app="app">
 		<div ng-controller="mainCtrl" class="small-margin">
-			<input type="text" class="form-control medium-width" ng-model="query" ng-keyup="$event.keyCode == 13 && selectFirst(items,query)" autofocus/>
+			<input type="text" class="form-control medium-width" ng-model="command" ng-keyup="keyup($event.keyCode)" autofocus/>
 			<div class="list-group">
-				<div ng-repeat="item in items | search:query" ng-click="select(item,query)" class="list-group-item item medium-width" ng-class="{active: $first}">
-					<div >{{item.uri}}</div>
-					<div class="small">{{item.tags}}</div>
+				<div ng-repeat="suggestion in ql.filterSuggestions(command)" ng-click="ql.validAt($index)" class="list-group-item item medium-width" ng-class="{active: $index === ql.selectedSuggestions.index}">
+					<div >{{suggestion.uri}}</div>
+					<div class="small">{{suggestion.tags}}</div>
 				</div>
 			</div>
 		</div>
 		<script type="text/javascript" src="scripts/vendors/angular.min.js"></script>
-		<script type="text/javascript" src="scripts/app.js"></script>
+		<script type="text/javascript" src="scripts/all.js"></script>
 	</body>
 </html>
