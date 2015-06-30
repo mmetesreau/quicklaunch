@@ -60,8 +60,8 @@
 									</div>
 									<div ng-switch-when="view">
 
-										<div class="col-xs-5">{{suggestion.uri}}</div>
-										<div class="col-xs-5">{{suggestion.tags}}</div>
+										<div class="col-xs-6">{{suggestion.uri}}</div>
+										<div class="col-xs-4"><div tags source="suggestion.tags"></div></div>
 										<div class="col-xs-1">
 											<button ng-click="$parent.currentMode = 'edit'" class="btn btn-primary pull-right">Edit</button>
 										</div>

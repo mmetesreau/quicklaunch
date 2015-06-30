@@ -25,3 +25,7 @@ div.list-group-item + div.no-items {
 .small-vertical-margin {
 	margin:10px;
 }
+
+.indent-left {
+	margin-left:5px;
+}
