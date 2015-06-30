@@ -29,6 +29,9 @@
 						case ":add" : 
 							pv.add = true;
 							break;
+						case ":edit" : 
+							pv.edit = true;
+							break;
 						case ":settings" : 
 							pv.settings = true;
 							break;
@@ -70,8 +73,14 @@
 				});
 			} else if (query.options.settings) {
 				chrome.tabs.create({ url: "options.html" });
+			} else if (query.options.edit && (!query.text || query.text === '')) {
+				chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
+					chrome.tabs.create({ url: "options.html#?q=" + tabs[0].url });
+				});
+			} else if (query.options.edit && selectedSuggestions.index < filteredSuggestions.length) {
+				chrome.tabs.create({ url: "options.html#?q=" + filteredSuggestions[selectedSuggestions.index].uri });
 			}
-			else
+			else if (selectedSuggestions.index < filteredSuggestions.length)
 				validAt(selectedSuggestions.index);
 		};
 

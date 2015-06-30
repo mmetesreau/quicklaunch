@@ -7,9 +7,10 @@
 		return {
 			 restrict: 'EA',
 			 scope: {
-			 	source: '='
+			 	source: '=',
+			 	right: '='
 			 },
-			 template: '<div ng-repeat="tag in tags" class="label label-default indent-left">{{tag}}</div>',
+			 template: '<div ng-repeat="tag in tags" class="label label-default indent-left" ng-class="{\'pull-right\':right}">{{tag}}</div>',
 			 controller: ['$scope',function($scope) {
 			 	if ($scope.source) {
 			 		$scope.tags = $scope.source.split(' ');

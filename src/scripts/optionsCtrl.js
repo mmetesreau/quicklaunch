@@ -3,11 +3,16 @@
 	
 	var app = angular.module('app');
 
-	app.controller('optionsCtrl',['$scope','quicklaunch',function($scope,quicklaunch) {
+	app.controller('optionsCtrl',['$scope','$location','quicklaunch',function($scope,$location, quicklaunch) {
 		quicklaunch.suggestions.load();
 		
 		$scope.ql = quicklaunch;
 
+		var q = $location.search().q;
+
+		if (q)
+			$scope.q = q;
+		
 		$scope.clearInput = function(input) {
 			input.uri = ''; 
 			input.tags = ''; 

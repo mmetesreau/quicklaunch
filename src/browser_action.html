@@ -15,7 +15,8 @@
 			<div class="list-group">
 				<div ng-repeat="suggestion in ql.filterSuggestions(command)" ng-click="ql.validAt($index)" class="list-group-item item medium-width" ng-class="{active: $index === ql.selectedSuggestions.index}">
 					<div >{{suggestion.uri}}</div>
-					<div class="small">{{suggestion.tags}}</div>
+					<div class="pull-right" tags source="suggestion.tags" right="true"></div>
+					<div class="clearfix"></div>
 				</div>
 			</div>
 		</div>
