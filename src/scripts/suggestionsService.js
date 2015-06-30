@@ -27,9 +27,20 @@
 			save();
 		};
 
-		var remove = function(index) {
-			suggestions.splice(index, 1);
-			save();
+		var remove = function(suggestion) {
+			var index = -1;
+			
+			for(var i = 0; i < suggestions.length; i++) {
+			    if (suggestions[i].uri === suggestion.uri && suggestions[i].tags === suggestion.tags) {
+			        index = i;
+			        break;
+			    }
+			}
+
+			if (index !== -1) {
+				suggestions.splice(index, 1);
+				save();
+			}
 		};
 
 		var exportAll = function() {

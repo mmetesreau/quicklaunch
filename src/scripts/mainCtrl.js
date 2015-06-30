@@ -13,6 +13,7 @@
 			{
 				case 13: 
 					quicklaunch.valid();
+					$scope.command = '';
 					break;
 				case 40: 
 					quicklaunch.selectDown();
