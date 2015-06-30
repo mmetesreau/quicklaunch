@@ -10,14 +10,41 @@
 		var searchFilter = $filter('search');
 
 		var parseCommand = function(command) {
+			if (!command)
+				return '';
+
+			var commandParts = command.split(' ');
+
+			var texts = commandParts.filter(function(part) { return !part.trim().startsWith(':'); });
+			var options = commandParts.filter(function(part) { return part.trim().startsWith(':'); });
+
 			return {
-				text: command,
-				options : { incognito: false }
+				text: texts.join(' '),
+				options : options.reduce(function(pv,option) { 
+					switch(option)
+					{
+						case ":priv" : 
+							pv.incognito = true;
+							break;
+						case ":add" : 
+							pv.add = true;
+							break;
+						case ":settings" : 
+							pv.settings = true;
+							break;
+						default: break;
+					}
+					return pv;
+				},{})
 			};
 		};
 
 		var filterSuggestions = function(command) {
 			query = parseCommand(command);
+
+			if (query.options.add || query.options.settings) 
+				return [];
+
 			filteredSuggestions = searchFilter(suggestions.all,query.text);
 
 			if (selectedSuggestions.index >= filteredSuggestions.length)
@@ -37,7 +64,15 @@
 		};
 
 		var valid = function() {
-			validAt(selectedSuggestions.index);
+			if (query.options.add) {
+				chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
+					suggestions.add({ uri: tabs[0].url, tags: query.text });
+				});
+			} else if (query.options.settings) {
+				chrome.tabs.create({ url: "options.html" });
+			}
+			else
+				validAt(selectedSuggestions.index);
 		};
 
 		var validAt = function(index) {

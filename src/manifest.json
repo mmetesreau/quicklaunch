@@ -4,7 +4,7 @@
   "version": "1.0",
   "manifest_version": 2,
   "permissions": [
-  	"storage"
+  	"storage","tabs"
   ],
   "options_page": "options.html",
   "browser_action": {
