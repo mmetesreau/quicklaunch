@@ -10,12 +10,14 @@
 		<link href="styles/app.css" rel="stylesheet">
 	</head>
 	<body ng-app="app">
-		<div ng-controller="optionsCtrl" class="container" ng-init="currentTab = 'tabItems'">  
+		<div ng-controller="optionsCtrl" class="container">  
 			
 			<ul class="nav nav-tabs small-vertical-margin">
 				<li ng-class="{active: currentTab == 'tabItems'}"><a href="#" ng-click="currentTab = 'tabItems'">Suggestions</a></li>
 				<li ng-class="{active: currentTab == 'tabExport'}"><a href="#" ng-click="currentTab = 'tabExport'">Export</a></li>
 				<li ng-class="{active: currentTab == 'tabImport'}"><a href="#" ng-click="currentTab = 'tabImport'">Import</a></li>
+				<li ng-class="{active: currentTab == 'tabTags'}"><a href="#" ng-click="currentTab = 'tabTags'">Tags</a></li>
+				<li ng-class="{active: currentTab == 'tabHelp'}"><a href="#" ng-click="currentTab = 'tabHelp'">Help</a></li>
 			</ul>
 
 			<div ng-switch="currentTab">
@@ -103,6 +105,15 @@
 						</div>
 					</div>
 
+				</div>
+
+				<div ng-switch-when="tabTags">
+						tags
+				</div>
+
+
+				<div ng-switch-when="tabHelp">
+						help
 				</div>
 			</div>
 		</div>

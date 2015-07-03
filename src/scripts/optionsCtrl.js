@@ -13,6 +13,15 @@
 		if (q)
 			$scope.q = q;
 		
+		var tab = $location.search().tab;
+		
+		if (tab && tab === 'tags')
+			$scope.currentTab = 'tabTags';
+		else if (tab && tab === 'help')
+			$scope.currentTab = 'tabHelp';
+		else
+			$scope.currentTab = 'tabItems';
+
 		$scope.clearInput = function(input) {
 			input.uri = ''; 
 			input.tags = ''; 

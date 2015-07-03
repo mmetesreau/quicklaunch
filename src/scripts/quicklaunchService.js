@@ -9,43 +9,10 @@
 		var selectedSuggestions = {index:0};
 		var searchFilter = $filter('search');
 
-		var parseCommand = function(command) {
-			if (!command)
-				return '';
-
-			var commandParts = command.split(' ');
-
-			var texts = commandParts.filter(function(part) { return !part.trim().startsWith(':'); });
-			var options = commandParts.filter(function(part) { return part.trim().startsWith(':'); });
-
-			return {
-				text: texts.join(' '),
-				options : options.reduce(function(pv,option) { 
-					switch(option)
-					{
-						case ":priv" : 
-							pv.incognito = true;
-							break;
-						case ":add" : 
-							pv.add = true;
-							break;
-						case ":edit" : 
-							pv.edit = true;
-							break;
-						case ":settings" : 
-							pv.settings = true;
-							break;
-						default: break;
-					}
-					return pv;
-				},{})
-			};
-		};
-
 		var filterSuggestions = function(command) {
 			query = parseCommand(command);
 
-			if (query.options.add || query.options.settings) 
+			if (query.options.add || query.options.settings || query.options.help || query.options.tag) 
 				return [];
 
 			filteredSuggestions = searchFilter(suggestions.all,query.text);
@@ -68,11 +35,16 @@
 
 		var valid = function() {
 			if (query.options.add) {
+				var tags = query.text;
 				chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
-					suggestions.add({ uri: tabs[0].url, tags: query.text });
+					suggestions.add({ uri: tabs[0].url, tags: tags });
 				});
 			} else if (query.options.settings) {
 				chrome.tabs.create({ url: "options.html" });
+			}  else if (query.options.help) {
+				chrome.tabs.create({ url: "options.html#?tab=help" });
+			} else if (query.options.tag) {
+				chrome.tabs.create({ url: "options.html#?tab=tags" });
 			} else if (query.options.edit && (!query.text || query.text === '')) {
 				chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
 					chrome.tabs.create({ url: "options.html#?q=" + tabs[0].url });

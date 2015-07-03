@@ -14,7 +14,6 @@
 			 				suggestions.push(suggestion);
 			 			});
 					});
-			 		
 			});
 		};
 

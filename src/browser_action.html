@@ -11,6 +11,7 @@
 	</head>
 	<body ng-app="app">
 		<div ng-controller="mainCtrl" class="small-margin">
+			<span id="helpBlock" class="help-block">Type <b>:help</b> to access help page</span>
 			<input type="text" class="form-control medium-width" ng-model="command" ng-keyup="keyup($event.keyCode)" autofocus/>
 			<div class="list-group">
 				<div ng-repeat="suggestion in ql.filterSuggestions(command)" ng-click="ql.validAt($index)" class="list-group-item item medium-width" ng-class="{active: $index === ql.selectedSuggestions.index}">

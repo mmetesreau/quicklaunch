@@ -13,7 +13,7 @@
 			return suggestions
 					.filter(function(suggestion) { 
 						return subQueries.every(function(subQuery) {
-							return suggestion.tags.toLowerCase().indexOf(subQuery) !== -1;
+							return suggestion.tags && suggestion.tags.toLowerCase().indexOf(subQuery) !== -1;
 						});
 					});
 		};
