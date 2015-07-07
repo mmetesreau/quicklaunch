@@ -3,7 +3,7 @@
 	
 	var app = angular.module('app');
 
-	app.controller('mainCtrl',['$scope','quicklaunch',function($scope, quicklaunch) {
+	app.controller('mainCtrl',['$scope','quicklaunch',function($scope,quicklaunch) {
 		quicklaunch.suggestions.load();
 
 		$scope.ql = quicklaunch;
@@ -18,9 +18,11 @@
 				case 40: 
 					quicklaunch.selectDown();
 					break;
-				case 38: quicklaunch.selectUp();
+				case 38: 
+					quicklaunch.selectUp();
 					break;
-				default:break;
+				default:
+					break;
 			}
 		};
 	}]);

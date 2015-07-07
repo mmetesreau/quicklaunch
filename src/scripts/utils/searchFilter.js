@@ -4,8 +4,10 @@
 	var app = angular.module('app');
 
 	app.filter('search',function() {
+		var trigger = 3;
+
 		return function(suggestions, query) {
-			if (!query || query.trim().length < 3)
+			if (!query || query.trim().length < trigger)
 				return [];
 
 			var subQueries = query.trim().split(' ');

@@ -1,10 +1,12 @@
 {
   "name": "Quick launch",
-  "description": "Press Ctrl+Shift+T",
+  "description": "Press Ctrl+Shift+F",
   "version": "1.0",
   "manifest_version": 2,
   "permissions": [
-  	"storage","tabs"
+  	"storage",
+    "tabs",
+    "notifications"
   ],
   "options_page": "options.html",
   "browser_action": {

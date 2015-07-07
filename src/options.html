@@ -13,11 +13,18 @@
 		<div ng-controller="optionsCtrl" class="container">  
 			
 			<ul class="nav nav-tabs small-vertical-margin">
-				<li ng-class="{active: currentTab == 'tabItems'}"><a href="#" ng-click="currentTab = 'tabItems'">Suggestions</a></li>
-				<li ng-class="{active: currentTab == 'tabExport'}"><a href="#" ng-click="currentTab = 'tabExport'">Export</a></li>
-				<li ng-class="{active: currentTab == 'tabImport'}"><a href="#" ng-click="currentTab = 'tabImport'">Import</a></li>
-				<li ng-class="{active: currentTab == 'tabTags'}"><a href="#" ng-click="currentTab = 'tabTags'">Tags</a></li>
-				<li ng-class="{active: currentTab == 'tabHelp'}"><a href="#" ng-click="currentTab = 'tabHelp'">Help</a></li>
+				<li ng-class="{active: currentTab == 'tabItems'}">
+					<a href="#" ng-click="currentTab = 'tabItems'">Suggestions</a>
+				</li>
+				<li ng-class="{active: currentTab == 'tabExport'}">
+					<a href="#" ng-click="currentTab = 'tabExport'">Export</a>
+				</li>
+				<li ng-class="{active: currentTab == 'tabImport'}">
+					<a href="#" ng-click="currentTab = 'tabImport'">Import</a>
+				</li>
+				<li ng-class="{active: currentTab == 'tabHelp'}">
+					<a href="#" ng-click="currentTab = 'tabHelp'">Help</a>
+				</li>
 			</ul>
 
 			<div ng-switch="currentTab">
@@ -47,7 +54,7 @@
 					
 					<br/>
 					<div class="list-group">
-						<div ng-repeat="suggestion in ql.suggestions.all | filter:q track by $index " class="list-group-item">
+						<div ng-repeat="suggestion in ql.suggestions.all | filter:q track by ql.identity(suggestion)" class="list-group-item">
 							<div class="row" ng-init="currentMode = 'view'">
 								<div ng-switch="currentMode">
 
@@ -63,7 +70,9 @@
 									<div ng-switch-when="view">
 
 										<div class="col-xs-6">{{suggestion.uri}}</div>
-										<div class="col-xs-4"><div tags source="suggestion.tags" right="false"></div></div>
+										<div class="col-xs-4">
+											<div tags source="suggestion.tags" right="false"></div>
+										</div>
 										<div class="col-xs-1">
 											<button ng-click="$parent.currentMode = 'edit'" class="btn btn-primary pull-right">Edit</button>
 										</div>
@@ -107,13 +116,14 @@
 
 				</div>
 
-				<div ng-switch-when="tabTags">
-						tags
-				</div>
-
-
 				<div ng-switch-when="tabHelp">
-						help
+
+					<div><b>:settings</b></div>
+					<div><b>:edit</b></div>
+					<div><b>:add</b></div>
+					<div><b>:priv</b></div>
+					<div><b>:help</b></div>
+
 				</div>
 			</div>
 		</div>

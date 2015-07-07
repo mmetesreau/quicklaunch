@@ -3,10 +3,9 @@
 
 	var app = angular.module('app');
 
-	app.service('commands',['suggestions','$filter',function(suggestions,$filter) {
-
-		var isCommand = function(command) {
-			return command.add || command.settings || command.help || command.tag
+	app.service('commands',[function() {
+		var hasActionOptions = function(options) {
+			return options.add || options.settings || options.help;
 		};
 
 		var parse = function(command) {
@@ -38,9 +37,6 @@
 						case ":help" : 
 							pv.help = true;
 							break;
-						case ":tags" : 
-							pv.tag = true;
-							break;
 						default: break;
 					}
 					return pv;
@@ -49,8 +45,9 @@
 		};
 
 		return {
+			hasActionOptions: hasActionOptions,
 			parse: parse
 		};
-	});
+	}]);
 
 })();
