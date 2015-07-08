@@ -37,7 +37,13 @@
 						case ":help" : 
 							pv.help = true;
 							break;
-						default: break;
+						default: 
+							if (option.startsWith(':qs=')) {
+								var qs = option.split('=');
+								if (qs.length > 1)
+									pv.qs = qs[1].trim();
+							}
+						break;
 					}
 					return pv;
 				},{})

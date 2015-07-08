@@ -1,3 +1,4 @@
 #Todo
 
-- Command Param ?
+- Refacto
+- Tests

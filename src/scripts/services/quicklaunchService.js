@@ -59,11 +59,15 @@
 
 		var validAt = function(index) {
 			var suggestion = filteredSuggestions[index];
+			var uri = suggestion.uri;
 
+			if (query.options.qs)
+				uri += query.options.qs;
+			
 			if (query.options.incognito)
-				navApi.openPrivateTab(suggestion.uri);
+				navApi.openPrivateTab(uri);
 			else 
-				navApi.openTab(suggestion.uri);
+				navApi.openTab(uri);
 		};
 
 		var identity = function(suggestion) {
