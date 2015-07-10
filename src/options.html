@@ -117,14 +117,57 @@
 				</div>
 
 				<div ng-switch-when="tabHelp">
+					<div>
+					</div>
 
-					<div><b>:qs=</b></div>
-					<div><b>:settings</b></div>
-					<div><b>:edit</b></div>
-					<div><b>:add</b></div>
-					<div><b>:priv</b></div>
-					<div><b>:help</b></div>
-
+					<div class="row small-vertical-margin">
+						<div class="col-xs-3">
+							<b>:qs=[PARAMS]</b>
+						</div>
+						<div class="col-xs-9">
+							Open the selected suggestion and append the query string to the uri.
+						</div>
+					</div>
+					<div class="row small-vertical-margin">
+						<div class="col-xs-3">
+							<b>:priv</b>
+						</div>
+						<div class="col-xs-9">
+							Open the selected suggestion in a new private tab.
+						</div>
+					</div>
+					<div class="row small-vertical-margin">
+						<div class="col-xs-3">
+							<b>:edit [OPTIONAL TAGS]</b>
+						</div>
+						<div class="col-xs-9">
+							Open the options page and show the suggestions tab with a filter. By default, the filter is the uri of the current tab. You can also select a custom suggestion to edit by specifying tags.
+						</div>
+					</div>
+					<div class="row small-vertical-margin">
+						<div class="col-xs-3">
+							<b>:add [TAGS]</b>
+						</div>
+						<div class="col-xs-9">
+							Add the uri of the current tab as a suggestion with the tags passed in parameters.
+						</div>
+					</div>
+					<div class="row small-vertical-margin">
+						<div class="col-xs-3">
+							<b>:settings</b>
+						</div>
+						<div class="col-xs-9">
+							Open the options page and show the suggestions tab.
+						</div>
+					</div>
+					<div class="row small-vertical-margin">
+						<div class="col-xs-3">
+							<b>:help</b>
+						</div>
+						<div class="col-xs-9">
+							Open the options page and show the help tab.
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -6,8 +6,7 @@
   "permissions": [
   	"storage",
     "tabs",
-    "notifications",
-    "file:///*"
+    "notifications"
   ],
   "options_page": "options.html",
   "browser_action": {

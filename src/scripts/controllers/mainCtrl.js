@@ -1,29 +1,33 @@
 (function() {
 	'use strict';
 	
-	var app = angular.module('app');
+	var keyEnter = 13,
+		keyDown = 40,
+		keyUp = 38;
 
-	app.controller('mainCtrl',['$scope','quicklaunch',function($scope,quicklaunch) {
-		quicklaunch.suggestions.load();
+	angular
+		.module('app')
+		.controller('mainCtrl',['$scope','quicklaunch',function($scope,quicklaunch) {
+			quicklaunch.suggestions.load();
 
-		$scope.ql = quicklaunch;
+			$scope.ql = quicklaunch;
 
-		$scope.keyup = function(event) {
-			switch(event)
-			{
-				case 13: 
-					quicklaunch.valid();
-					$scope.command = '';
-					break;
-				case 40: 
-					quicklaunch.selectDown();
-					break;
-				case 38: 
-					quicklaunch.selectUp();
-					break;
-				default:
-					break;
-			}
-		};
+			$scope.keyup = function(event) {
+				switch(event)
+				{
+					case keyEnter: 
+						quicklaunch.valid();
+						$scope.command = '';
+						break;
+					case keyDown: 
+						quicklaunch.selectDown();
+						break;
+					case keyUp: 
+						quicklaunch.selectUp();
+						break;
+					default:
+						break;
+				}
+			};
 	}]);
 })();

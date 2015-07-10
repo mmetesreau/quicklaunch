@@ -1,28 +1,27 @@
 (function() {
 	'use strict';
 	
-	var app = angular.module('app');
+	angular
+		.module('app')
+		.controller('optionsCtrl',['$scope','$location','quicklaunch',function($scope,$location,quicklaunch) {
+			quicklaunch.suggestions.load();
+			
+			$scope.ql = quicklaunch;
 
-	app.controller('optionsCtrl',['$scope','$location','quicklaunch',function($scope,$location,quicklaunch) {
-		quicklaunch.suggestions.load();
-		
-		$scope.ql = quicklaunch;
+			var q = $location.search().q;
+			var tab = $location.search().tab;
 
-		var q = $location.search().q;
+			if (q)
+				$scope.q = q;
 
-		if (q)
-			$scope.q = q;
-		
-		var tab = $location.search().tab;
+			if (tab && tab === 'help')
+				$scope.currentTab = 'tabHelp';
+			else
+				$scope.currentTab = 'tabItems';
 
-		if (tab && tab === 'help')
-			$scope.currentTab = 'tabHelp';
-		else
-			$scope.currentTab = 'tabItems';
-
-		$scope.clearInput = function(input) {
-			input.uri = ''; 
-			input.tags = ''; 
-		};
+			$scope.clearInput = function(input) {
+				input.uri = ''; 
+				input.tags = ''; 
+			};
 	}]);
 })();

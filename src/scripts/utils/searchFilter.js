@@ -1,23 +1,23 @@
 (function() {
 	'use strict';
 	
-	var app = angular.module('app');
+	angular
+		.module('app')
+		.filter('search',function() {
+			var trigger = 3;
 
-	app.filter('search',function() {
-		var trigger = 3;
+			return function(suggestions,tags) {
+				if (!tags || tags.trim().length < trigger)
+					return [];
 
-		return function(suggestions, query) {
-			if (!query || query.trim().length < trigger)
-				return [];
+				var allTags = tags.trim().split(' ');
 
-			var subQueries = query.trim().split(' ');
-
-			return suggestions
-					.filter(function(suggestion) { 
-						return subQueries.every(function(subQuery) {
-							return suggestion.tags && suggestion.tags.toLowerCase().indexOf(subQuery) !== -1;
+				return suggestions
+						.filter(function(suggestion) { 
+							return allTags.every(function(tag) {
+								return suggestion.tags && suggestion.tags.toLowerCase().indexOf(tag) !== -1;
+							});
 						});
-					});
-		};
+			};
 	});
 })();
