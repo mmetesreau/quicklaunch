@@ -22,6 +22,8 @@ gulp.task('copy', function() {
 		.pipe(gulp.dest('build/fonts'));
 	gulp.src('src/icons/**')
 		.pipe(gulp.dest('build/icons'));
+	gulp.src('src/img/**')
+		.pipe(gulp.dest('build/img'));
 	gulp.src('src/_locales/**')
 		.pipe(gulp.dest('build/_locales'));
 	return gulp.src('src/manifest.json')
