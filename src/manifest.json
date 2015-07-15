@@ -1,7 +1,7 @@
 {
   "name": "Quicklaunch",
   "description": "Press Ctrl+Shift+F and start searching your links using your own tags",
-  "version": "1.1",
+  "version": "1.2",
   "manifest_version": 2,
   "permissions": [
   	"storage",

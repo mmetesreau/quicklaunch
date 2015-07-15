@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
 	 	<meta charset="utf-8">
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,23 +12,32 @@
 	<body ng-app="app">
 		<div ng-controller="optionsCtrl" class="container">  
 			
-			<ul class="nav nav-tabs small-vertical-margin">
-				<li ng-class="{active: currentTab == 'tabItems'}">
-					<a href="#" ng-click="currentTab = 'tabItems'">Suggestions</a>
+			<div class="btn-group pull-right small-top-vertical-margin">
+				 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
+				</button>
+
+				<ul class="dropdown-menu">
+			 		<li>
+			 			<a href="#" data-toggle="modal" data-target=".bs-export-modal-lg">Export suggestions</a>
+			 		</li>
+			    	<li>
+			    		<a href="#" data-toggle="modal" data-target=".bs-import-modal-lg">Import suggestions</a>
+			    	</li>
+			 	</ul>
+			</div>
+
+			<ul class="nav nav-tabs small-top-vertical-margin" role="tablist">
+				<li role="presentation"  ng-class="{active: currentTab == 'tabItems'}">
+					<a href="#" aria-controls="suggestions" role="tab" data-toggle="tab" ng-click="currentTab = 'tabItems'">Suggestions</a>
 				</li>
-				<li ng-class="{active: currentTab == 'tabExport'}">
-					<a href="#" ng-click="currentTab = 'tabExport'">Export</a>
-				</li>
-				<li ng-class="{active: currentTab == 'tabImport'}">
-					<a href="#" ng-click="currentTab = 'tabImport'">Import</a>
-				</li>
-				<li ng-class="{active: currentTab == 'tabHelp'}">
-					<a href="#" ng-click="currentTab = 'tabHelp'">Help</a>
+				<li role="presentation"  ng-class="{active: currentTab == 'tabHelp'}">
+					<a aria-controls="help" role="tab" data-toggle="tab" href="#" ng-click="currentTab = 'tabHelp'">Help</a>
 				</li>
 			</ul>
 
-			<div ng-switch="currentTab">
-				<div ng-switch-when="tabItems">
+			<div class="tab-content small-top-vertical-margin">
+				<div class="tab-pane" role="tabpanel" id="suggestions" ng-class="{active: currentTab == 'tabItems'}">
 					
 					<div class="row">
 						<div class="col-xs-6">
@@ -42,9 +51,7 @@
 						</div>
 					</div>
 
-					<br/>
-					<div class="clearfix"></div>
-					<br/>
+					<div class="small-vertical-margin clearfix"></div>
 
 					<div class="row">
 						<div class="col-xs-12">
@@ -52,8 +59,7 @@
 						</div>
 					</div>
 					
-					<br/>
-					<div class="list-group">
+					<div class="list-group small-vertical-margin">
 						<div ng-repeat="suggestion in ql.suggestions.all | filter:q track by ql.identity(suggestion)" class="list-group-item">
 							<div class="row" ng-init="currentMode = 'view'">
 								<div ng-switch="currentMode">
@@ -89,34 +95,33 @@
 					     	<b>No suggestion yet :(</b>
 					    </div>
 					</div>
-
-				</div>
-				<div ng-switch-when="tabExport">
-
-					<div class="form-group">
-						<textarea class="form-control medium-height" ng-model="exportResult"></textarea>
-					</div>
-					<div class="row">
-						<div class="col-xs-1  col-xs-offset-5">
-							<button ng-click="exportResult = ql.suggestions.exportAll()" class="btn btn-success center-block" >Export</button>
+					<div class="modal fade bs-export-modal-lg" tabindex="-1" role="dialog">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+								<div class="form-group">
+									<textarea class="form-control medium-height" ng-readonly="true">{{ql.suggestions.exportAll()}}</textarea>
+								</div>
+							</div>
 						</div>
 					</div>
-
-				</div>
-				<div ng-switch-when="tabImport">
-
-					<div class="form-group">
-						<textarea  class="form-control medium-height" ng-model="importInput"></textarea>
-					</div>
-					<div class="row">
-						<div class="col-xs-1  col-xs-offset-5">
-							<button ng-click="ql.suggestions.importAll(importInput);importInput = '';$parent.currentTab = 'tabItems'" class="btn btn-success center-block" >Import</button>
+					<div class="modal fade bs-import-modal-lg" tabindex="-1" role="dialog">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+								<div class="modal-body">
+									<div class="form-group">
+										<textarea placeholder="[{uri: 'http://myuri.tld',tags: 'tag1 tag2'}]" class="form-control medium-height" ng-model="importInput" ng-readonly="false" ></textarea>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+									<button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="ql.suggestions.importAll(importInput)">Import</button>
+								</div>
+							</div>
 						</div>
 					</div>
-
 				</div>
 
-				<div ng-switch-when="tabHelp">
+				<div class="tab-pane" role="tabpanel" id="help" ng-class="{active: currentTab == 'tabHelp'}">
 					<h2>Usage:</h2>
 					<div class="row">
 						<div class="col-xs-12">
@@ -183,6 +188,8 @@
 				</div>
 			</div>
 		</div>
+		<script type="text/javascript" src="scripts/vendors/jquery.min.js"></script>
+		<script type="text/javascript" src="scripts/vendors/bootstrap.min.js"></script>
 		<script type="text/javascript" src="scripts/vendors/angular.min.js"></script>
 		<script type="text/javascript" src="scripts/all.js"></script>
 	</body>

@@ -51,14 +51,14 @@ gulp.task('scripts', ['jshint'], function() {
 	return gulp.src(['src/scripts/**/*.js', '!src/scripts/vendors/**/*.js'])
 		.pipe(stripdebug())
 		.pipe(concat('all.js'))
-		//.pipe(uglify({outSourceMap: true}))
+		.pipe(uglify({outSourceMap: false}))
 		.pipe(gulp.dest('build/scripts'));
 });
 
 //minify styles
 gulp.task('styles', function() {
  	return gulp.src('src/styles/**/*.css')
- 		.pipe(minifycss({root: 'src/styles', keepSpecialComments: 0}))
+ 		.pipe(minifycss({ keepSpecialComments: 0}))
  		.pipe(gulp.dest('build/styles'));
 });
 

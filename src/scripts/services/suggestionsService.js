@@ -62,7 +62,7 @@
 		};
 
 		var mapSuggestion = function(suggestion) { 
-			return { suggestion: suggestion.uri, tags: suggestion.tags }; 
+			return { uri: suggestion.uri, tags: suggestion.tags }; 
 		};
 
 		var exportAll = function() {
