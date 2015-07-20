@@ -4,15 +4,14 @@
 		<meta charset="utf-8">
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Quick launch Options</title>
+		<title>Quicklaunch</title>
 
 		<link href="styles/bootstrap.min.css" rel="stylesheet">
 		<link href="styles/app.css" rel="stylesheet">
 	</head>
 	<body ng-app="app">
 		<div ng-controller="mainCtrl" class="small-margin">
-			<span id="helpBlock" class="help-block">Type <b>:help</b> to access help page</span>
-			<input type="text" class="form-control medium-width" ng-model="command" ng-keyup="keyup($event.keyCode)" autofocus/>
+			<input type="text" class="form-control medium-width" ng-model="command" ng-keyup="keyup($event.keyCode)" placeholder="Lost? Type :help to access help page" autofocus/>
 			<div class="list-group">
 				<div ng-repeat="suggestion in ql.filterSuggestions(command)" ng-click="ql.validAt($index)" class="list-group-item item medium-width" ng-class="{active: $index === ql.selectedSuggestions.index}">
 					<div>{{suggestion.uri}}</div>
