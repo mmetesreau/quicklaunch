@@ -1,27 +1,33 @@
 (function() {
 	'use strict';
-	
+
+	var helpTab = 'tabHelp',
+		suggestionsTab = 'tabItems',
+		queryHelpTab = 'help';	
+
 	angular
 		.module('app')
-		.controller('optionsCtrl',['$scope','$location','quicklaunch',function($scope,$location,quicklaunch) {
-			quicklaunch.suggestions.load();
-			
-			$scope.ql = quicklaunch;
+		.controller('optionsCtrl',['$scope','$location','quicklaunch','browser',
+			function($scope,$location,quicklaunch,browser) {
+				quicklaunch.suggestions.load();
+				
+				$scope.ql = quicklaunch;
+				$scope.browser = browser;
 
-			var q = $location.search().q;
-			var tab = $location.search().tab;
+				var params = $location.search().q;
 
-			if (q)
-				$scope.q = q;
+				if (params.q)
+					$scope.q = params.q;
 
-			if (tab && tab === 'help')
-				$scope.currentTab = 'tabHelp';
-			else
-				$scope.currentTab = 'tabItems';
+				if (params.tab && params.tab === queryHelpTab)
+					$scope.currentTab = helpTab;
+				else
+					$scope.currentTab = suggestionsTab;
 
-			$scope.clearInput = function(input) {
-				input.uri = ''; 
-				input.tags = ''; 
-			};
-	}]);
+				$scope.clearInput = function(input) {
+					input.uri = ''; 
+					input.tags = ''; 
+				};
+		}
+	]);
 })();

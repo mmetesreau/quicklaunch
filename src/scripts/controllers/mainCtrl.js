@@ -7,27 +7,30 @@
 
 	angular
 		.module('app')
-		.controller('mainCtrl',['$scope','quicklaunch',function($scope,quicklaunch) {
-			quicklaunch.suggestions.load();
+		.controller('mainCtrl',['$scope','quicklaunch','browser',
+			function($scope,quicklaunch,browser) {
+				quicklaunch.suggestions.load();
 
-			$scope.ql = quicklaunch;
-
-			$scope.keyup = function(event) {
-				switch(event)
-				{
-					case keyEnter: 
-						quicklaunch.valid();
-						$scope.command = '';
-						break;
-					case keyDown: 
-						quicklaunch.selectDown();
-						break;
-					case keyUp: 
-						quicklaunch.selectUp();
-						break;
-					default:
-						break;
-				}
-			};
-	}]);
+				$scope.ql = quicklaunch;
+				$scope.browser = browser;
+				
+				$scope.keyup = function(event) {
+					switch(event)
+					{
+						case keyEnter: 
+							quicklaunch.valid();
+							$scope.command = '';
+							break;
+						case keyDown: 
+							quicklaunch.selectDown();
+							break;
+						case keyUp: 
+							quicklaunch.selectUp();
+							break;
+						default:
+							break;
+					}
+				};
+		}
+	]);
 })();
