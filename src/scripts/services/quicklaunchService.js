@@ -3,7 +3,7 @@
 
 	var app = angular.module('app');
 
-	app.service('quicklaunch',['suggestions','commands','navApi','$filter',function(suggestions,commands,navApi,$filter) {
+	app.service('quicklaunch',['suggestions','commands','browser','$filter',function(suggestions,commands,browser,$filter) {
 		var query = {};
 		var filteredSuggestions = [];
 		var selectedSuggestions = { index: 0 };
@@ -37,22 +37,22 @@
 			var tags = query.text;
 
 			if (query.options.add) 
-				navApi
+				browser
 					.getCurrentTab()
 					.then(function(url) { 
 						suggestions.add({ uri: url, tags: tags });
-						navApi.notif('The suggestion has been added'); 
+						browser.notif('The suggestion has been added'); 
 					});
 			else if (query.options.settings) 
-				navApi.openTab("options.html");
+				browser.openTab("options.html");
 			else if (query.options.help) 
-				navApi.openTab("options.html#?tab=help");
+				browser.openTab("options.html#?tab=help");
 			else if (query.options.edit && (!tags || tags === '')) 
-				navApi
+				browser
 					.getCurrentTab()
-					.then(function(url) { navApi.openTab("options.html#?q=" + url); });
+					.then(function(url) { browser.openTab("options.html#?q=" + url); });
 			else if (query.options.edit && selectedSuggestions.index < filteredSuggestions.length) 
-				navApi.openTab("options.html#?q=" + filteredSuggestions[selectedSuggestions.index].uri);
+				browser.openTab("options.html#?q=" + filteredSuggestions[selectedSuggestions.index].uri);
 			else if (selectedSuggestions.index < filteredSuggestions.length)
 				validAt(selectedSuggestions.index);
 		};
@@ -65,9 +65,9 @@
 				uri += query.options.qs;
 			
 			if (query.options.incognito)
-				navApi.openPrivateTab(uri);
+				browser.openPrivateTab(uri);
 			else 
-				navApi.openTab(uri);
+				browser.openTab(uri);
 		};
 
 		var identity = function(suggestion) {

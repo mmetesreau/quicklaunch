@@ -3,7 +3,7 @@
 
 	var app = angular.module('app');
 
-	app.service('navApi',['$q',function($q) {
+	app.service('browser',['$q',function($q) {
 		var openTab = function(url) {
 			chrome.tabs.create({ url: url });
 		};

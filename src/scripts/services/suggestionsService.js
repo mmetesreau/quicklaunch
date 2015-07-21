@@ -3,7 +3,7 @@
 	
 	var app = angular.module('app');
 
-	app.service('suggestions',['$timeout','navApi',function($timeout, navApi) {
+	app.service('suggestions',['$timeout','browser',function($timeout, browser) {
 		var suggestions = [];
 
 		var fillSuggestions = function(data) {
@@ -15,7 +15,7 @@
 		};
 
 		var load = function() {
-			navApi
+			browser
 			.getStorage('suggestions')
 			.then(fillSuggestions);
 		};
@@ -23,7 +23,7 @@
 		var save = function() {
 			var data = { 'suggestions': suggestions || [] };
 
-			navApi
+			browser
 			.setStorage(data);
 		};
 
