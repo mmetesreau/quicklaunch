@@ -49,12 +49,17 @@ gulp.task('jshint', function() {
 
 //copy vendor scripts and uglify all other scripts
 gulp.task('scripts', ['jshint'], function() {
-	var vendorsScripts = gulp.src('src/scripts/vendors/**/*.js')
-		.pipe(gulp.dest('build/scripts/vendors'));
+	var vendorsScripts = gulp.src([
+			'src/scripts/vendors/jquery.min.js',
+			'src/scripts/vendors/bootstrap.min.js',
+			'src/scripts/vendors/angular.min.js',
+			'src/scripts/vendors/lodash.min.js'])
+		.pipe(concat('lib.js'))
+		.pipe(gulp.dest('build/scripts'));
 
 	var appScripts =  gulp.src(['src/scripts/**/*.js', '!src/scripts/vendors/**/*.js'])
 		.pipe(stripdebug())
-		.pipe(concat('all.js'))
+		.pipe(concat('app.js'))
 		.pipe(uglify({outSourceMap: false}))
 		.pipe(gulp.dest('build/scripts'));
 
