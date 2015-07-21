@@ -1,6 +1,7 @@
 {
-  "name": "Quicklaunch",
-  "description": "Press Ctrl+Shift+F and start searching your links using your own tags",
+  "name": "__MSG_appName__",
+  "description": "__MSG_appDesc__",
+  "default_locale": "en",
   "version": "1.2",
   "manifest_version": 2,
   "permissions": [
