@@ -9,24 +9,30 @@
 		.module('app')
 		.controller('optionsCtrl',['$scope','$location','quicklaunch','browser',
 			function($scope,$location,quicklaunch,browser) {
+				
 				quicklaunch.suggestions.load();
 				
 				$scope.ql = quicklaunch;
 				$scope.browser = browser;
 
-				var params = $location.search().q;
+				var params = $location.search();
 
-				if (params.q)
+				if (params.q) {
 					$scope.q = params.q;
+				}
 
-				if (params.tab && params.tab === queryHelpTab)
+				if (params.tab && params.tab === queryHelpTab) {
 					$scope.currentTab = helpTab;
-				else
+				} else {
 					$scope.currentTab = suggestionsTab;
+				}
 
-				$scope.clearInput = function(input) {
-					input.uri = ''; 
-					input.tags = ''; 
+				$scope.newSuggestion = { uri: '', tags: [] };
+				
+				$scope.clearSuggestion = function(suggestion) {
+					
+					suggestion.uri = ''; 
+					suggestion.tags = []; 
 				};
 		}
 	]);

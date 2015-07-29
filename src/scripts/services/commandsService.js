@@ -1,59 +1,57 @@
 (function() {
 	'use strict';
 
-	var app = angular.module('app');
+	var optionStartKey 		= ':',
+		optionSettings 		= ':settings',
+		optionSession 		= ':all',
+		optionEdit 			= ':edit',
+		optionPriv 			= ':priv',
+		optionHelp 			= ':help',
+		optionAdd 			= ':add',
+		optionQueryString 	= ':qs=';
 
-	app.service('commands',[function() {
-		var hasActionOptions = function(options) {
-			return options.add || options.settings || options.help;
-		};
+	angular
+		.module('app')
+		.service('commands',['parser', 
+			function(parser) {
+				return {
+					parse: parse
+				};
 
-		var parse = function(command) {
-			if (!command)
-				return '';
+				function parse(text) {
 
-			var commandParts = command.split(' ');
+					if (!text)
+						return undefined;
 
-			var texts = commandParts.filter(function(part) { return !part.trim().startsWith(':'); });
-			var options = commandParts.filter(function(part) { return part.trim().startsWith(':'); });
+					var commandParts = parser.run(text);
 
-			return {
-				text: texts.join(' '),
-				options : options.reduce(function(pv,option) { 
-					switch(option)
-					{
-						case ":priv" : 
-							pv.incognito = true;
-							break;
-						case ":add" : 
-							pv.add = true;
-							break;
-						case ":edit" : 
-							pv.edit = true;
-							break;
-						case ":settings" : 
-							pv.settings = true;
-							break;
-						case ":help" : 
-							pv.help = true;
-							break;
-						default: 
-							if (option.startsWith(':qs=')) {
-								var qs = option.split('=');
-								if (qs.length > 1)
-									pv.qs = qs[1].trim();
+					var tags = commandParts.filter(function(part) { return !part.startsWith(optionStartKey); });
+					var options = commandParts.filter(function(part) { return part.startsWith(optionStartKey); });
+
+					var command = {
+						tags: tags,
+						options: options.reduce(function(pv,option) { 
+							pv.session = pv.session || option === optionSession;
+							pv.incognito = pv.incognito || option === optionPriv;
+							pv.add = pv.add || option === optionAdd;
+							pv.edit = pv.edit || option === optionEdit;
+							pv.settings = pv.settings || option === optionSettings;
+							pv.help = pv.help || option === optionHelp;
+
+							if (option.startsWith(optionQueryString)) {
+								var qs = option.substring(optionQueryString.length);
+								if (qs.length)
+									pv.qs = qs;
 							}
-						break;
-					}
-					return pv;
-				},{})
-			};
-		};
+		
+							return pv;
+						},{})
+					};
 
-		return {
-			hasActionOptions: hasActionOptions,
-			parse: parse
-		};
-	}]);
+					command.noSuggestion = command.options.add || command.options.settings || command.options.help;
 
+					return command;
+				};
+			}
+		]);
 })();

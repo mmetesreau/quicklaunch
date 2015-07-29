@@ -34,3 +34,7 @@ div.list-group-item + div.no-items {
 .indent-left {
 	margin-left:5px;
 }
+
+.indent-right {
+	margin-right:5px;
+}

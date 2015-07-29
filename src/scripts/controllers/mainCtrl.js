@@ -9,17 +9,19 @@
 		.module('app')
 		.controller('mainCtrl',['$scope','quicklaunch','browser',
 			function($scope,quicklaunch,browser) {
+				
 				quicklaunch.suggestions.load();
 
 				$scope.ql = quicklaunch;
 				$scope.browser = browser;
 				
 				$scope.keyup = function(event) {
+					
 					switch(event)
 					{
 						case keyEnter: 
 							quicklaunch.valid();
-							$scope.command = '';
+							quicklaunch.query = '';
 							break;
 						case keyDown: 
 							quicklaunch.selectDown();

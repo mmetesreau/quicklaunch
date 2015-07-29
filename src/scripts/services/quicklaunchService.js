@@ -1,88 +1,96 @@
 (function() {
 	'use strict';
 
-	var app = angular.module('app');
+	var limit = 10,
+		trigger = 3;
 
-	app.service('quicklaunch',['suggestions','commands','browser','$filter',function(suggestions,commands,browser,$filter) {
-		var query = {};
-		var filteredSuggestions = [];
-		var selectedSuggestions = { index: 0 };
-		var searchFilter = $filter('search');
+	angular
+		.module('app')
+		.service('quicklaunch',['suggestions','commands','browser',
+			function(suggestions,commands,browser) {
 
-		var filterSuggestions = function(command) {
-			query = commands.parse(command);
+				var query = '';
+				var command = {};
+				var filteredSuggestions = [];
+				var selectedSuggestions = { index: 0 };
 
-			if (query && query.options && commands.hasActionOptions(query.options)) 
-				return [];
+				var filter = function(suggestions,tags,limit,trigger) {
+					if (tags.length === 0 || tags.join('').length < trigger)
+						return [];
 
-			filteredSuggestions = searchFilter(suggestions.all,query.text);
+					return suggestions
+							.filter(function(suggestion) { 
+								return tags.every(function(tag) {
+									return suggestion.tags.some(function(stag) { return stag.indexOf(tag) !== -1});
+								});
+							});
+				};
 
-			if (selectedSuggestions.index >= filteredSuggestions.length)
-				selectedSuggestions.index = 0;
+				return {
+					selectedSuggestions: selectedSuggestions,
+					filterSuggestions: filterSuggestions,
+					selectUp: selectUp,
+					selectDown: selectDown,
+					validAt: validAt,
+					valid: valid,
+					suggestions: suggestions,
+					query: query
+				};
+	   
+				function filterSuggestions(search) {
 
-			return filteredSuggestions;
-		};
+					command = commands.parse(search);
 
-		var selectUp = function() {
-			if (selectedSuggestions.index - 1 >= 0)
-				selectedSuggestions.index = selectedSuggestions.index - 1;
-		};
+					if (!command || command.noSuggestion) 
+						return [];
 
-		var selectDown = function() {
-			if (selectedSuggestions.index + 1 < filteredSuggestions.length)
-				selectedSuggestions.index = selectedSuggestions.index + 1;
-		};
+					filteredSuggestions = filter(suggestions.all,command.tags,limit,trigger);
 
-		var valid = function() {
-			var tags = query.text;
+					if (selectedSuggestions.index >= filteredSuggestions.length)
+						selectedSuggestions.index = 0;
 
-			if (query.options.add) 
-				browser
-					.getCurrentTab()
-					.then(function(url) { 
-						suggestions.add({ uri: url, tags: tags });
-						browser.notif('The suggestion has been added'); 
-					});
-			else if (query.options.settings) 
-				browser.openTab("options.html");
-			else if (query.options.help) 
-				browser.openTab("options.html#?tab=help");
-			else if (query.options.edit && (!tags || tags === '')) 
-				browser
-					.getCurrentTab()
-					.then(function(url) { browser.openTab("options.html#?q=" + url); });
-			else if (query.options.edit && selectedSuggestions.index < filteredSuggestions.length) 
-				browser.openTab("options.html#?q=" + filteredSuggestions[selectedSuggestions.index].uri);
-			else if (selectedSuggestions.index < filteredSuggestions.length)
-				validAt(selectedSuggestions.index);
-		};
+					return filteredSuggestions;
+				};
 
-		var validAt = function(index) {
-			var suggestion = filteredSuggestions[index];
-			var uri = suggestion.uri;
+				function selectUp() {
+					if (selectedSuggestions.index - 1 >= 0)
+						selectedSuggestions.index = selectedSuggestions.index - 1;
+				};
 
-			if (query.options.qs)
-				uri += query.options.qs;
-			
-			if (query.options.incognito)
-				browser.openPrivateTab(uri);
-			else 
-				browser.openTab(uri);
-		};
+				function selectDown() {
+					if (selectedSuggestions.index + 1 < filteredSuggestions.length)
+						selectedSuggestions.index = selectedSuggestions.index + 1;
+				};
 
-		var identity = function(suggestion) {
-			return suggestion.uri + "::" + suggestion.tags;
-		};
+				function valid() {
+					if (command.options.add) 
+						browser.getCurrentTab().then(function(url) { suggestions.add({ uri: url, tags: command.tags }); });
+					else if (command.options.session && filteredSuggestions.length > 0) 
+						browser.openSessionTab(filteredSuggestions.map(function(s) { return s.uri; }),command.options.incognito);
+					else if (command.options.settings) 
+						browser.openTab("options.html");
+					else if (command.options.help) 
+						browser.openTab("options.html#?tab=help");
+					else if (command.options.edit && command.tags.length === 0) 
+						browser.getCurrentTab().then(function(url) { browser.openTab("options.html#?q=" + url); });
+					else if (command.options.edit && selectedSuggestions.index < filteredSuggestions.length) 
+						browser.openTab("options.html#?q=" + filteredSuggestions[selectedSuggestions.index].uri);
+					else if (selectedSuggestions.index < filteredSuggestions.length)
+						validAt(selectedSuggestions.index);
+					else 
+						browser.notify('Something wrong happend');
+				};
 
-		return {
-			selectedSuggestions: selectedSuggestions,
-			filterSuggestions: filterSuggestions,
-			selectUp: selectUp,
-			selectDown: selectDown,
-			validAt: validAt,
-			valid: valid,
-			suggestions: suggestions,
-			identity: identity
-		};
-	}]);
+				function validAt(index) {
+
+					var suggestion = filteredSuggestions[index];
+					var uri = suggestion.uri;
+
+					if (command.options.qs)
+						uri += command.options.qs;
+					
+					browser.openTab(uri,command.options.incognito);
+				};		
+			}
+		]);
 })();
