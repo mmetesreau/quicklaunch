@@ -11,7 +11,9 @@
 	</head>
 	<body ng-app="app">
 		<div ng-controller="mainCtrl" class="small-margin">
-			<input type="text" class="form-control medium-width" ng-model="ql.query" ng-keyup="keyup($event.keyCode)" placeholder="Lost? Type :help to access help page" autofocus/>
+			<div suggest entry="ql.query" get-suggest='ql.getSuggest(value)'>
+				<input type="text" class="form-control medium-width suggest-input" ng-model="ql.query" ng-keyup="keyup($event.keyCode)" placeholder="Lost? Type :help to access help page"/>
+			</div>
 			<div class="list-group">
 				<div ng-repeat="suggestion in ql.filterSuggestions(ql.query)" ng-click="ql.validAt($index)" class="list-group-item item medium-width" ng-class="{active: $index === ql.selectedSuggestions.index}">
 					<div>{{suggestion.uri}}</div>

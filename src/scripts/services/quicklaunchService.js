@@ -10,6 +10,7 @@
 			function(suggestions,commands,browser) {
 
 				var query = '';
+				var suggestQuery = '';
 				var command = {};
 				var filteredSuggestions = [];
 				var selectedSuggestions = { index: 0 };
@@ -34,9 +35,38 @@
 					validAt: validAt,
 					valid: valid,
 					suggestions: suggestions,
-					query: query
+					query: query,
+					getSuggest: getSuggest
 				};
-	   
+	   			
+	   			function getSuggest(search) {
+	   				
+	   				if (!search || search === '')
+	   					return '';
+
+	   				var pos = search.lastIndexOf(' ');
+	   				pos = pos === -1 ? 0 : (pos + 1);
+
+	   				var lastPart = search.substring(pos);
+
+					if (lastPart !== '' && ':all'.startsWith(lastPart))
+						return search.substring(0,pos) + ':all';
+					else if (lastPart !== '' && ':settings'.startsWith(lastPart))
+						return search.substring(0,pos) + ':settings';
+					else if (lastPart !== '' && ':edit'.startsWith(lastPart))
+						return search.substring(0,pos) + ':edit';
+					else if (lastPart !== '' && ':priv'.startsWith(lastPart))
+						return search.substring(0,pos) + ':priv';
+					else if (lastPart !== '' && ':help'.startsWith(lastPart))
+						return search.substring(0,pos) + ':help';
+					else if (lastPart !== '' && ':add'.startsWith(lastPart))
+						return search.substring(0,pos) + ':add';
+					else if (lastPart !== '' && ':qs='.startsWith(lastPart))
+						return search.substring(0,pos) + ':qs=';
+					else
+						return '';
+	   			};
+
 				function filterSuggestions(search) {
 
 					command = commands.parse(search);
