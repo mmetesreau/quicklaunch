@@ -7,22 +7,8 @@
 		.module('app')
 		.service('suggestions',['$timeout','browser','lodash',
 			function($timeout, browser, lodash) {
-				//TODO: LODASH
+
 				var suggestions = [];
-
-				var suggestionContainUri = function(uri) {
-					return function(suggestion) { return suggestion.uri === uri; };
-				};
-
-				var fillSuggestions = function(data) {
-					$timeout(function() {
-						data.forEach(function(suggestion) { suggestions.push(suggestion); });
-					});
-				};
-
-				var suggestionMapper = function(suggestion) { 
-					return { uri: suggestion.uri, tags: suggestion.tags }; 
-				};
 
 				return {
 					all: suggestions,
@@ -36,7 +22,11 @@
 
 				function load() {
 
-					browser.getStorage(storageKey).then(fillSuggestions);
+					browser.getStorage(storageKey).then((data) => {
+						$timeout(() => {
+							data.forEach(suggestion => suggestions.push(suggestion));
+						});
+					});
 				};
 
 				function save() {
@@ -48,14 +38,14 @@
 					browser.setStorage(data);
 				};
 
-				function add(suggestion) {
+				function add(newSuggestion) {
 
-					var exist = suggestions.some(suggestionContainUri(suggestion.uri));
+					var exist = suggestions.some(suggestion => suggestion.uri === newSuggestion.uri);
 					
 					if (exist) {
 						browser.notify('The suggestion was already added');
 					} else {
-						var data = { uri: suggestion.uri, tags: suggestion.tags || [] };
+						var data = { uri: newSuggestion.uri, tags: newSuggestion.tags || [] };
 
 						suggestions.push(data);
 						
@@ -83,7 +73,7 @@
 
 				function exportAll() {
 
-					return JSON.stringify(suggestions.map(suggestionMapper),null,"    ");
+					return JSON.stringify(suggestions.map(suggestion => { return { uri: suggestion.uri, tags: suggestion.tags }}),null,"    ");
 				};
 
 				function importAll(text) {
@@ -91,14 +81,14 @@
 					if (!text)
 						return;
 
-					var parsedSuggestions= JSON.parse(text);
+					var parsedSuggestions = JSON.parse(text);
 
-					if (parsedSuggestions.constructor !== Array)
+					if (!parsedSuggestions || parsedSuggestions.constructor !== Array)
 						return;
 
 					parsedSuggestions.forEach(function(parsedSuggestion) {
 						if (parsedSuggestion !== null && typeof parsedSuggestion === 'object' && parsedSuggestion.uri)
-							if (!suggestions.some(suggestionContainUri(parsedSuggestion.uri))) 
+							if (!suggestions.some(suggestion => suggestion.uri === parsedSuggestion.uri)) 
 								suggestions.push(parsedSuggestion);
 						});
 

@@ -1,19 +1,11 @@
 (function() {
 	'use strict';
 
-	var optionStartKey 		= ':',
-		optionSettings 		= ':settings',
-		optionSession 		= ':all',
-		optionEdit 			= ':edit',
-		optionPriv 			= ':priv',
-		optionHelp 			= ':help',
-		optionAdd 			= ':add',
-		optionQueryString 	= ':qs=';
-
 	angular
 		.module('app')
-		.service('commands',['parser', 
-			function(parser) {
+		.service('commands',['parser','options',
+			function(parser,options) {
+
 				return {
 					parse: parse
 				};
@@ -25,22 +17,23 @@
 
 					var commandParts = parser.run(text);
 
-					var tags = commandParts.filter(function(part) { return !part.startsWith(optionStartKey); });
-					var options = commandParts.filter(function(part) { return part.startsWith(optionStartKey); });
+					var commandTags = commandParts.filter(part => !part.startsWith(options.startKey));
+					var commandOptions = commandParts.filter(part => part.startsWith(options.startKey));
 
 					var command = {
-						tags: tags,
-						options: options.reduce(function(pv,option) { 
-							pv.session = pv.session || option === optionSession;
-							pv.incognito = pv.incognito || option === optionPriv;
-							pv.add = pv.add || option === optionAdd;
-							pv.edit = pv.edit || option === optionEdit;
-							pv.settings = pv.settings || option === optionSettings;
-							pv.help = pv.help || option === optionHelp;
+						tags: commandTags,
+						options: commandOptions.reduce((pv,option) => { 
 
-							if (option.startsWith(optionQueryString)) {
-								var qs = option.substring(optionQueryString.length);
-								if (qs.length)
+							pv.session 			= pv.session 	|| option === options.session;
+							pv.incognito 		= pv.incognito 	|| option === options.priv;
+							pv.add 				= pv.add 		|| option === options.add;
+							pv.edit 			= pv.edit 		|| option === options.edit;
+							pv.settings 		= pv.settings 	|| option === options.settings;
+							pv.help 			= pv.help 		|| option === options.help;
+
+							if (option.startsWith(options.queryString)) {
+								var qs = option.substring(options.queryString.length);
+								if (qs.length > 0)
 									pv.qs = qs;
 							}
 		

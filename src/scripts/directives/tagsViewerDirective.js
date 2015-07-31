@@ -11,7 +11,6 @@
 					 	tags: '=',
 					 	pullRight: '='
 					 },
-					 replace: true,
 					 template: '<div ng-repeat="tag in tags" class="label label-default indent-left" ng-class="{\'pull-right\':pullRight}">{{tag}}</div>'
 				};
 			}

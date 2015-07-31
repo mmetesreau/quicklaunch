@@ -9,7 +9,8 @@ var gulp = require('gulp'),
 	uglify = require('gulp-uglify'),
 	concat  = require('gulp-concat'),
 	merge = require('merge-stream'),
-	zip = require('gulp-zip');
+	zip = require('gulp-zip'),
+	babel = require('gulp-babel');
 
 //clean build directory
 gulp.task('clean', function() {
@@ -58,6 +59,7 @@ gulp.task('scripts', ['jshint'], function() {
 		.pipe(gulp.dest('build/scripts'));
 
 	var appScripts =  gulp.src(['src/scripts/**/*.js', '!src/scripts/vendors/**/*.js'])
+		.pipe(babel())
 		.pipe(stripdebug())
 		.pipe(concat('app.js'))
 		.pipe(uglify({outSourceMap: false}))

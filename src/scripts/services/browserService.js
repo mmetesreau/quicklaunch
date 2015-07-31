@@ -15,7 +15,8 @@
 					openSessionTab: openSessionTab,
 					getCurrentTab: getCurrentTab,
 					setStorage: setStorage,
-					getStorage: getStorage 
+					getStorage: getStorage,
+					getBookmarks: getBookmarks
 				};
 
 				function openTab(url, incognito) {
@@ -75,6 +76,21 @@
 				function translate(key) {
 					
 					return chrome.i18n.getMessage(key);
+				};
+
+				function getBookmarks() {
+
+					var deferred = $q.defer();
+
+					chrome.bookmarks.getTree(function(bookmarkTreeNode) {
+						if (bookmarkTreeNode) {
+							deferred.resolve(bookmarkTreeNode);
+						} else {
+							deferred.resolve([]);
+						}
+					});
+
+					return deferred.promise;
 				};
 			}
 		]);
