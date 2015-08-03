@@ -1,12 +1,12 @@
 (function() {
 	'use strict';
 	
-	var storageKey = 'suggestions-v2';
+	var storageKey = 'suggestions';
 
 	angular
 		.module('app')
-		.service('suggestions',['$timeout','browser','lodash',
-			function($timeout, browser, lodash) {
+		.service('suggestions',['$timeout','browser','migration',
+			function($timeout,browser,migration) {
 
 				var suggestions = [];
 
@@ -23,6 +23,7 @@
 				function load() {
 
 					browser.getStorage(storageKey).then((data) => {
+						data = migration.run(data);
 						$timeout(() => {
 							data.forEach(suggestion => suggestions.push(suggestion));
 						});
@@ -45,9 +46,7 @@
 					if (exist) {
 						browser.notify('The suggestion was already added');
 					} else {
-						var data = { uri: newSuggestion.uri, tags: newSuggestion.tags || [] };
-
-						suggestions.push(data);
+						suggestions.push({ uri: newSuggestion.uri, tags: newSuggestion.tags || [] });
 						
 						save();
 
@@ -56,15 +55,9 @@
 				};
 
 				function remove(suggestion) {
-					var index = -1;
-					
-					for(var i = 0; i < suggestions.length; i++) {
-						if (suggestions[i].uri === suggestion.uri && suggestions[i].tags === suggestion.tags) {
-							index = i;
-							break;
-						}
-					}
 
+					var index = suggestions.indexOf(suggestion);
+					
 					if (index !== -1) {
 						suggestions.splice(index, 1);
 						save();
@@ -73,7 +66,12 @@
 
 				function exportAll() {
 
-					return JSON.stringify(suggestions.map(suggestion => { return { uri: suggestion.uri, tags: suggestion.tags }}),null,"    ");
+					return JSON.stringify(suggestions.map(suggestion => { 
+						return { 
+							uri: suggestion.uri, 
+							tags: suggestion.tags 
+						};
+					}),null,"    ");
 				};
 
 				function importAll(text) {
@@ -86,11 +84,19 @@
 					if (!parsedSuggestions || parsedSuggestions.constructor !== Array)
 						return;
 
+					var isASuggestion = suggestion => parsedSuggestion !== null && typeof parsedSuggestion === 'object' && parsedSuggestion.uri && (typeof parsedSuggestion.uri === 'string' || parsedSuggestion.uri instanceof String) && parsedSuggestion.tags && parsedSuggestion.tags.constructor === Array;
+					
 					parsedSuggestions.forEach(function(parsedSuggestion) {
-						if (parsedSuggestion !== null && typeof parsedSuggestion === 'object' && parsedSuggestion.uri)
-							if (!suggestions.some(suggestion => suggestion.uri === parsedSuggestion.uri)) 
+						if (isASuggestion(parsedSuggestion)) {
+							if (!suggestions.some(suggestion => suggestion.uri === parsedSuggestion.uri)) {
 								suggestions.push(parsedSuggestion);
-						});
+							} else {
+								browser.notify('...');
+							}
+						} else {
+							browser.notify('...');
+						}
+					});
 
 					save();
 				};
