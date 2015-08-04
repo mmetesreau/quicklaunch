@@ -29,7 +29,7 @@
 				};
 	   			
 				function getBookmarks() {
-					browser.getBookmarks().then(bookmarkTreeNode => {
+					return browser.getBookmarks().then(bookmarkTreeNode => {
 						if(!bookmarkTreeNode) {
 							return [];
 						}
@@ -41,7 +41,10 @@
 							path = path.slice();
 
 							if (node.title) {
-								path.push(node.title);
+								var normalizedTitle = node.title.toLowerCase().trim();
+								if (path.indexOf(normalizedTitle) === -1) {
+									path.push(normalizedTitle);
+								}
 							}
 
 							if (node.children) {
@@ -113,7 +116,7 @@
 					} else if (selectedSuggestions.index < filteredSuggestions.length){
 						validAt(selectedSuggestions.index);
 					} else {
-						browser.notify('Something wrong happend');
+						browser.notify(browser.translate('errorUnknow'));
 					}
 				};
 

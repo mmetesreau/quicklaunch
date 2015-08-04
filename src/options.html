@@ -4,7 +4,7 @@
 	 	<meta charset="utf-8">
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>{{browser.translate('appName')}}</title>
+		<title>Quicklaunch</title>
 
 		<link href="styles/bootstrap.min.css" rel="stylesheet">
 		<link href="styles/app.css" rel="stylesheet">
@@ -19,25 +19,26 @@
 
 				<ul class="dropdown-menu" role="menu" aria-labelledby="btn-append-to-body">
 			 		<li role="menuitem">
-			 			<a href="#" ng-click="">Export suggestions</a>
+			 			<a href="#" ng-click="exportSuggestions()">{{browser.translate('helpExportSuggestions')}}</a>
 			 		</li>
 			    	<li role="menuitem">
-			    		<a href="#" ng-click="">Import suggestions</a>
+			    		<a href="#" ng-click="importSuggestions()">{{browser.translate('helpImportSuggestions')}}</a>
 			    	</li>
 			    	<li role="menuitem">
-			    		<a href="#" ng-click="">Import bookmarks</a>
+			    		<a href="#" ng-click="importBookmarks()">{{browser.translate('helpImportBookmarks')}}</a>
 			    	</li>
 			 	</ul>
 			</div>
 
 			<tabset class="small-top-vertical-margin">
-				<tab heading="Suggestions" active="suggestionsTabIsActive">
+				<tab heading="{{browser.translate('helpSuggestionsTabHeader')}}" active="suggestionsTabIsActive">
 					<div class="row small-top-vertical-margin">
 						<div class="col-xs-6">
-							<input class="form-control" type="text" ng-model="newSuggestion.uri" placeholder="Uri"/>
+							<input class="form-control" type="text" ng-model="newSuggestion.uri" placeholder="{{browser.translate('helpNewSuggestionUriPlaceholder')}}"/>
 						</div>
 						 <div class="col-xs-5">
-							<tags-editor tags="newSuggestion.tags"></tags-editor>
+							<tags-editor tags="newSuggestion.tags" placeholder="{{browser.translate('helpNewSuggestionTagsPlaceholder')}}">
+							</tags-editor>
 						</div>
 						<div class="col-xs-1">
 							<button ng-disabled="!newSuggestion.uri || newSuggestion.uri.length === 0" ng-click="ql.suggestions.add(newSuggestion);clearSuggestion(newSuggestion)" class="btn btn-primary pull-right">
@@ -50,7 +51,7 @@
 
 					<div class="row">
 						<div class="col-xs-12">
-							<input class="form-control" type="text" ng-model="q" placeholder="Search"/>
+							<input class="form-control" type="text" ng-model="q" placeholder="{{browser.translate('helpSearchSuggestionPlaceholder')}}"/>
 						</div>
 					</div>
 					
@@ -63,7 +64,8 @@
 
 										<div class="col-xs-6">{{suggestion.uri}}</div>
 										<div class="col-xs-5">
-											<tags-editor tags="suggestion.tags"></tags-editor>
+											<tags-editor tags="suggestion.tags" placeholder="{{browser.translate('helpNewSuggestionTagsPlaceholder')}}">
+											</tags-editor>
 										</div>
 										<div class="col-xs-1">
 											<button ng-click="ql.suggestions.save();$parent.currentMode = 'view'" class="btn btn-success pull-right">
@@ -92,15 +94,15 @@
 							</div>
 						</div>
 						<div class="no-items text-center">
-					     	<b>No suggestion yet :(</b>
+					     	<b>{{browser.translate('helpNoSuggestion')}}</b>
 					    </div>
 					</div>
 				</tab>
-				<tab heading="Help" active="helpTabIsActive">
-					<h2>Usage:</h2>
+				<tab heading="{{browser.translate('helpHelpTabHeader')}}" active="helpTabIsActive">
+					<h2>{{browser.translate('helpUsageTitle')}}</h2>
 					<div class="row">
 						<div class="col-xs-12">
-						To begin, press Ctrl+Shift+F to display the quicklaunch search bar. Now you can start typing some tags to display a list of filtered uri. After that, use the arrow keys in order to quickly navigate through the list of suggestions and the enter key to select a suggestion.
+						{{browser.translate('helpUsageDesc1')}}
 						</div>
 					</div>
 					<div class="row">
@@ -108,10 +110,10 @@
 					</div>
 					<div class="row">
 						<div class="col-xs-12">
-						But how can I manage my suggestions? Go to the options page or use directly the quicklaunch search bar and the special commands.
+						{{browser.translate('helpUsageDesc2')}}
 						</div>
 					</div>
-					<h2>Special commands:</h2>
+					<h2>{{browser.translate('helpCommandsTitle')}}</h2>
 					<div class="row small-vertical-margin">
 						<div class="col-xs-3">
 							<b>:qs=[PARAMS]</b>
@@ -122,50 +124,50 @@
 					</div>
 					<div class="row small-vertical-margin">
 						<div class="col-xs-3">
-							<b>:priv</b>
+							<b>{{browser.translate('helpCommandsPrivTitle')}}</b>
 						</div>
 						<div class="col-xs-9">
-							Open the selected suggestion in a new private tab.
+							{{browser.translate('helpCommandsPrivDesc')}}
 						</div>
 					</div>
 					<div class="row small-vertical-margin">
 						<div class="col-xs-3">
-							<b>:all</b>
+							<b>{{browser.translate('helpCommandsAllTitle')}}</b>
 						</div>
 						<div class="col-xs-9">
-							Open all suggestions matching tags in a new window.
+							{{browser.translate('helpCommandsAllDesc')}}
 						</div>
 					</div>
 					<div class="row small-vertical-margin">
 						<div class="col-xs-3">
-							<b>:edit [OPTIONAL TAGS]</b>
+							<b>{{browser.translate('helpCommandsEditTitle')}}</b>
 						</div>
 						<div class="col-xs-9">
-							Open the options page and show the suggestions tab with a filter. By default, the filter is the uri of the current tab. You can also select a custom suggestion to edit by specifying tags.
+							{{browser.translate('helpCommandsEditDesc')}}
 						</div>
 					</div>
 					<div class="row small-vertical-margin">
 						<div class="col-xs-3">
-							<b>:add [TAGS]</b>
+							<b>{{browser.translate('helpCommandsSettingsDesc')}}</b>
 						</div>
 						<div class="col-xs-9">
-							Add the uri of the current tab as a suggestion with the tags passed in parameters.
+							{{browser.translate('helpCommandsSettingsDesc')}}
 						</div>
 					</div>
 					<div class="row small-vertical-margin">
 						<div class="col-xs-3">
-							<b>:settings</b>
+							<b>{{browser.translate('helpCommandsAddTitle')}}</b>
 						</div>
 						<div class="col-xs-9">
-							Open the options page and show the suggestions tab.
+							{{browser.translate('helpCommandsAddDesc')}}
 						</div>
 					</div>
 					<div class="row small-vertical-margin">
 						<div class="col-xs-3">
-							<b>:help</b>
+							<b>{{browser.translate('helpCommandsHelpTitle')}}</b>
 						</div>
 						<div class="col-xs-9">
-							Open the options page and show the help tab.
+							{{browser.translate('helpCommandsHelpDesc')}}
 						</div>
 					</div>
 				</tab>

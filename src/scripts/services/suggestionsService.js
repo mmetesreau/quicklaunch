@@ -44,13 +44,13 @@
 					var exist = suggestions.some(suggestion => suggestion.uri === newSuggestion.uri);
 					
 					if (exist) {
-						browser.notify('The suggestion was already added');
+						browser.notify(browser.translate('errorSuggestionExist'));
 					} else {
 						suggestions.push({ uri: newSuggestion.uri, tags: newSuggestion.tags || [] });
 						
 						save();
 
-						browser.notify('The suggestion has been added');
+						browser.notify(browser.translate('confirmSuggestionAdded'));
 					}
 				};
 
@@ -77,30 +77,35 @@
 				function importAll(text) {
 
 					if (!text) {
+						browser.notify(browser.translate('errorUnknow'));
 						return;
 					}
 
-					var parsedSuggestions = JSON.parse(text);
+					try {
+						var parsedSuggestions = JSON.parse(text);
 
-					if (!parsedSuggestions || parsedSuggestions.constructor !== Array) {
-						return;
-					}
-
-					var isASuggestion = suggestion => parsedSuggestion !== null && typeof parsedSuggestion === 'object' && parsedSuggestion.uri && (typeof parsedSuggestion.uri === 'string' || parsedSuggestion.uri instanceof String) && parsedSuggestion.tags && parsedSuggestion.tags.constructor === Array;
-					
-					parsedSuggestions.forEach(function(parsedSuggestion) {
-						if (isASuggestion(parsedSuggestion)) {
-							if (!suggestions.some(suggestion => suggestion.uri === parsedSuggestion.uri)) {
-								suggestions.push(parsedSuggestion);
-							} else {
-								browser.notify('The suggestion was already added');
-							}
-						} else {
-							browser.notify('The suggestion is misformatted');
+						if (!parsedSuggestions || parsedSuggestions.constructor !== Array) {
+							return;
 						}
-					});
 
-					save();
+						var isASuggestion = suggestion => parsedSuggestion !== null && typeof parsedSuggestion === 'object' && parsedSuggestion.uri && (typeof parsedSuggestion.uri === 'string' || parsedSuggestion.uri instanceof String) && parsedSuggestion.tags && parsedSuggestion.tags.constructor === Array;
+						
+						parsedSuggestions.forEach(function(parsedSuggestion) {
+							if (isASuggestion(parsedSuggestion)) {
+								if (!suggestions.some(suggestion => suggestion.uri === parsedSuggestion.uri)) {								
+									suggestions.push(parsedSuggestion);
+								} else {
+									browser.notify(browser.translate('errorSuggestionExist'));
+								}
+							} else {
+								browser.notify(browser.translate('errorSuggestionMisformatted'));
+							}
+						});
+
+						save();
+					} catch(e) {
+						browser.notify(browser.translate('errorUnknow'));
+					}
 				};
 			}
 		]);

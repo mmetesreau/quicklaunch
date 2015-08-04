@@ -7,8 +7,32 @@
     "message": "Press Ctrl+Shift+F and start searching your links using your own tags.", 
     "description":"The description of the application, displayed in the web store."
   },
+  "errorUnknow": {
+    "message": "Something wrong happend", 
+    "description": "-"
+  },
+  "errorSuggestionExist": {
+    "message": "The suggestion was already added", 
+    "description": "-"
+  },
+  "errorSuggestionMisformatted": {
+    "message": "The suggestion is misformatted", 
+    "description": "-"
+  },
+  "confirmSuggestionAdded": {
+    "message": "The suggestion has been added", 
+    "description": "-"
+  },
   "actionSearchPlaceholder": {
     "message": "Lost? Type :help to access help page", 
+    "description": "-"
+  },
+  "helpSuggestionsTabHeader": {
+    "message": "Suggestions", 
+    "description": "-"
+  },
+  "helpHelpTabHeader": {
+    "message": "Help", 
     "description": "-"
   },
   "helpNoSuggestion": {
@@ -23,8 +47,36 @@
     "message": "Import suggestions", 
     "description": "-"
   },
+  "helpImportOkButton": {
+    "message": "Import", 
+    "description": "-"
+  },
+  "helpImportCancelButton": {
+    "message": "Close", 
+    "description": "-"
+  },
+  "helpImportTextPlaceholder": {
+    "message": "[{uri: 'http://myuri.tld',tags: ['tag1', 'tag2']}]", 
+    "description": "-"
+  },
+  "helpImportBookmarksOkButton": {
+    "message": "Close", 
+    "description": "-"
+  },
+  "helpImportBookmarksAddButton": {
+    "message": "Add", 
+    "description": "-"
+  },
+  "helpImportNoBookmark": {
+    "message": "You have no bookmark...", 
+    "description": "-"
+  },
   "helpExportSuggestions": {
     "message": "Export suggestions", 
+    "description": "-"
+  },
+  "helpExportOkButton": {
+    "message": "Close", 
     "description": "-"
   },
   "helpNewSuggestionUriPlaceholder": {

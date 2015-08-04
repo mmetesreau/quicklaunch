@@ -54,3 +54,7 @@ div.list-group-item + div.no-items {
 	z-index:-5;
 	color: #ccc;
 }
+
+.label {
+	display: inline-block !important;
+}

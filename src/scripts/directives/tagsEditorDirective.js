@@ -8,10 +8,11 @@
 				return {
 					 restrict: 'AE',
 					 scope: {
-					 	tags: '='
+					 	tags: '=',
+					 	placeholder: '@'
 					 },
 					 replace: true,
-					 template: '<div><div><input class="form-control" type="text" ng-model="search" placeholder="Enter a few letters and type space or enter to validate" autofocus/></div><span class="tag label label-warning indent-right" ng-repeat="tag in tags track by tag">{{tag}}<span class="indent-left" ng-click="remove($index)">x</span></span></div>',
+					 template: '<div><div><input class="form-control" type="text" ng-model="search" placeholder="{{placeholder}}" autofocus/></div><span class="tag label label-warning indent-right" ng-repeat="tag in tags track by tag">{{tag}}<span class="indent-left" ng-click="remove($index)">x</span></span></div>',
 					 controller: ['$scope','$element',
 					 	function($scope,$element) {
 
