@@ -52,9 +52,9 @@ gulp.task('jshint', function() {
 gulp.task('scripts', ['jshint'], function() {
 	var vendorsScripts = gulp.src([
 			'src/scripts/vendors/jquery.min.js',
-			'src/scripts/vendors/bootstrap.min.js',
 			'src/scripts/vendors/angular.min.js',
-			'src/scripts/vendors/lodash.min.js'])
+			'src/scripts/vendors/ui-bootstrap-tpls.min.js'
+			])
 		.pipe(concat('lib.js'))
 		.pipe(gulp.dest('build/scripts'));
 
@@ -62,7 +62,7 @@ gulp.task('scripts', ['jshint'], function() {
 		.pipe(babel())
 		.pipe(stripdebug())
 		.pipe(concat('app.js'))
-		.pipe(uglify({outSourceMap: false}))
+		//.pipe(uglify({outSourceMap: false}))
 		.pipe(gulp.dest('build/scripts'));
 
 	return merge(vendorsScripts,appScripts);

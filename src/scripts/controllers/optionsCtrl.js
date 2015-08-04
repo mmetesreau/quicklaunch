@@ -1,9 +1,7 @@
 (function() {
 	'use strict';
 
-	var helpTab = 'tabHelp',
-		suggestionsTab = 'tabItems',
-		queryHelpTab = 'help';	
+	var queryHelpTab = 'help';	
 
 	angular
 		.module('app')
@@ -22,9 +20,9 @@
 				}
 
 				if (params.tab && params.tab === queryHelpTab) {
-					$scope.currentTab = helpTab;
+					$scope.helpTabIsActive = true;
 				} else {
-					$scope.currentTab = suggestionsTab;
+					$scope.suggestionsTabIsActive = true;
 				}
 
 				$scope.newSuggestion = { uri: '', tags: [] };

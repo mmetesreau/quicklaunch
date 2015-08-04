@@ -6,26 +6,14 @@
 
 	angular
 		.module('app')
-		.service('quicklaunch',['suggestions','commands','browser',
-			function(suggestions,commands,browser) {
+		.service('quicklaunch',['suggestions','commands','browser','pages',
+			function(suggestions,commands,browser,pages) {
 
 				var query = '';
 				var suggestQuery = '';
 				var command = {};
 				var filteredSuggestions = [];
 				var selectedSuggestions = { index: 0 };
-
-				var filter = function(suggestions,tags,limit,trigger) {
-					if (tags.length === 0 || tags.join('').length < trigger)
-						return [];
-
-					return suggestions
-							.filter(function(suggestion) { 
-								return tags.every(function(tag) {
-									return suggestion.tags.some(function(stag) { return stag.indexOf(tag) !== -1});
-								});
-							});
-				};
 
 				return {
 					selectedSuggestions: selectedSuggestions,
@@ -36,79 +24,97 @@
 					valid: valid,
 					suggestions: suggestions,
 					query: query,
-					getSuggest: getSuggest
+					getSuggest: commands.suggest,
+					getBookmarks: getBookmarks
 				};
 	   			
-	   			function getSuggest(search) {
-	   				
-	   				if (!search || search === '')
-	   					return '';
+				function getBookmarks() {
+					browser.getBookmarks().then(bookmarkTreeNode => {
+						if(!bookmarkTreeNode) {
+							return [];
+						}
 
-	   				var pos = search.lastIndexOf(' ');
-	   				pos = pos === -1 ? 0 : (pos + 1);
+						var bookmarks = [];
 
-	   				var lastPart = search.substring(pos);
+						var parser = function(node, path) {
 
-					if (lastPart !== '' && ':all'.startsWith(lastPart))
-						return search.substring(0,pos) + ':all';
-					else if (lastPart !== '' && ':settings'.startsWith(lastPart))
-						return search.substring(0,pos) + ':settings';
-					else if (lastPart !== '' && ':edit'.startsWith(lastPart))
-						return search.substring(0,pos) + ':edit';
-					else if (lastPart !== '' && ':priv'.startsWith(lastPart))
-						return search.substring(0,pos) + ':priv';
-					else if (lastPart !== '' && ':help'.startsWith(lastPart))
-						return search.substring(0,pos) + ':help';
-					else if (lastPart !== '' && ':add'.startsWith(lastPart))
-						return search.substring(0,pos) + ':add';
-					else if (lastPart !== '' && ':qs='.startsWith(lastPart))
-						return search.substring(0,pos) + ':qs=';
-					else
-						return '';
-	   			};
+							path = path.slice();
+
+							if (node.title) {
+								path.push(node.title);
+							}
+
+							if (node.children) {
+								node.children.forEach(child => parser(child,path));
+							} else if(node.url) {
+								var exist = suggestions.all.some(suggestion => suggestion.uri === node.url);
+								if (!exist) {
+									bookmarks.push({uri: node.url, tags: path});
+								}
+							}
+  						};
+
+						bookmarkTreeNode.forEach(node => parser(node,[]));
+						return bookmarks;
+					});
+				};
 
 				function filterSuggestions(search) {
 
 					command = commands.parse(search);
 
-					if (!command || command.noSuggestion) 
+					if (!command || command.noSuggestion || command.tags.length === 0 || command.tags.join('').length < trigger) {
 						return [];
+					}
 
-					filteredSuggestions = filter(suggestions.all,command.tags,limit,trigger);
+					filteredSuggestions = suggestions.all.filter(suggestion => {
+						return command.tags.every(commandTag => {
+							return suggestion.tags.some(tag => tag.indexOf(commandTag) !== -1);
+						});
+					}).slice(0,limit);
 
-					if (selectedSuggestions.index >= filteredSuggestions.length)
+					if (selectedSuggestions.index >= filteredSuggestions.length) {
 						selectedSuggestions.index = 0;
+					}
 
 					return filteredSuggestions;
 				};
 
 				function selectUp() {
-					if (selectedSuggestions.index - 1 >= 0)
+
+					if (selectedSuggestions.index - 1 >= 0) {
 						selectedSuggestions.index = selectedSuggestions.index - 1;
+					}
 				};
 
 				function selectDown() {
-					if (selectedSuggestions.index + 1 < filteredSuggestions.length)
+
+					if (selectedSuggestions.index + 1 < filteredSuggestions.length) {
 						selectedSuggestions.index = selectedSuggestions.index + 1;
+					}
 				};
 
 				function valid() {
-					if (command.options.add) 
-						browser.getCurrentTab().then(function(url) { suggestions.add({ uri: url, tags: command.tags }); });
-					else if (command.options.session && filteredSuggestions.length > 0) 
-						browser.openSessionTab(filteredSuggestions.map(function(s) { return s.uri; }),command.options.incognito);
-					else if (command.options.settings) 
-						browser.openTab("options.html");
-					else if (command.options.help) 
-						browser.openTab("options.html#?tab=help");
-					else if (command.options.edit && command.tags.length === 0) 
-						browser.getCurrentTab().then(function(url) { browser.openTab("options.html#?q=" + url); });
-					else if (command.options.edit && selectedSuggestions.index < filteredSuggestions.length) 
-						browser.openTab("options.html#?q=" + filteredSuggestions[selectedSuggestions.index].uri);
-					else if (selectedSuggestions.index < filteredSuggestions.length)
+					
+					var tags = command.tags;
+
+					if (command.options.add) {	
+						browser.getCurrentTab().then(url => suggestions.add({ uri: url, tags: tags }));
+					} else if (command.options.session && filteredSuggestions.length > 0) {
+						browser.openSessionTab(filteredSuggestions.map(fs => fs.uri),command.options.incognito);
+					} else if (command.options.settings) {
+						browser.openTab(pages.optionsDefault); 
+					} else if (command.options.help)  {
+						browser.openTab(pages.optionsHelp);
+					} else if (command.options.edit && command.tags.length === 0) {
+						browser.getCurrentTab().then(url => browser.openTab(pages.optionsSearch + url));
+					} else if (command.options.edit && selectedSuggestions.index < filteredSuggestions.length) {
+						browser.openTab(pages.optionsSearch + filteredSuggestions[selectedSuggestions.index].uri);
+					} else if (selectedSuggestions.index < filteredSuggestions.length){
 						validAt(selectedSuggestions.index);
-					else 
+					} else {
 						browser.notify('Something wrong happend');
+					}
 				};
 
 				function validAt(index) {
@@ -116,8 +122,9 @@
 					var suggestion = filteredSuggestions[index];
 					var uri = suggestion.uri;
 
-					if (command.options.qs)
+					if (command.options.qs) {
 						uri += command.options.qs;
+					}
 					
 					browser.openTab(uri,command.options.incognito);
 				};		

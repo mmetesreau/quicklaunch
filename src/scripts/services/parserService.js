@@ -26,12 +26,14 @@
 
 							entry = '';
 						}
-						else 
+						else {
 							entry += letter;
+						}
 					}
 
-					if (entry !== '')
+					if (entry !== '') {
 						entries.push(entry);
+					}
 
 					return entries;
 				};

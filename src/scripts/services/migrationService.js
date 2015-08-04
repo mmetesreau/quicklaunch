@@ -11,15 +11,18 @@
 				};
 
 				function run(suggestions) {
-					if (!suggestions || suggestions.constructor !== Array)
+					if (!suggestions || suggestions.constructor !== Array) {
 						return [];
+					}
 
 					suggestions.forEach(suggestion => {
-						if (!suggestion.tags)
+						if (!suggestion.tags) {
 							suggestion.tags = [];
+						}
 
-						if (typeof suggestion === 'string' || suggestion instanceof String)
+						if (typeof suggestion === 'string' || suggestion instanceof String) {
 							suggestion.tags = parser.run(suggestion.tags);
+						}
 					});
 
 					return suggestions;

@@ -6,5 +6,109 @@
   "appDesc": {
     "message": "Press Ctrl+Shift+F and start searching your links using your own tags.", 
     "description":"The description of the application, displayed in the web store."
-  }	
+  },
+  "actionSearchPlaceholder": {
+    "message": "Lost? Type :help to access help page", 
+    "description": "-"
+  },
+  "helpNoSuggestion": {
+    "message": "No suggestion yet :(", 
+    "description": "-"
+  },
+  "helpImportBookmarks": {
+    "message": "Import bookmarks", 
+    "description": "-"
+  },
+  "helpImportSuggestions": {
+    "message": "Import suggestions", 
+    "description": "-"
+  },
+  "helpExportSuggestions": {
+    "message": "Export suggestions", 
+    "description": "-"
+  },
+  "helpNewSuggestionUriPlaceholder": {
+    "message": "Uri", 
+    "description": "-"
+  },
+  "helpNewSuggestionTagsPlaceholder": {
+    "message": "Enter a few letters and type space or enter to validate", 
+    "description": "-"
+  },
+  "helpSearchSuggestionPlaceholder": {
+    "message": "Search", 
+    "description": "-"
+  },
+  "helpUsageTitle": {
+    "message": "Usage:", 
+    "description": "-"
+  },
+  "helpUsageDesc1": {
+    "message": "To begin, press Ctrl+Shift+F to display the quicklaunch search bar. Now you can start typing some tags to display a list of filtered uri. After that, use the arrow keys in order to quickly navigate through the list of suggestions and the enter key to select a suggestion.", 
+    "description": "-"
+  },
+  "helpUsageDesc2": {
+    "message": "But how can I manage my suggestions? Go to the options page or use directly the quicklaunch search bar and the special commands.", 
+    "description": "-"
+  },
+    "helpCommandsTitle": {
+    "message": "Special commands:", 
+    "description": "-"
+  },
+  "helpCommandsQueryStringTitle": {
+    "message": ":qs=[PARAMS]", 
+    "description": "-"
+  },
+  "helpCommandsQueryStringDesc": {
+    "message": "Open the selected suggestion and append the query string to the uri.", 
+    "description": "-"
+  },
+  "helpCommandsPrivTitle": {
+    "message": ":priv", 
+    "description": "-"
+  },
+  "helpCommandsPrivDesc": {
+    "message": "Open the selected suggestion in a new private tab.", 
+    "description": "-"
+  },
+  "helpCommandsAllTitle": {
+    "message": ":all", 
+    "description": "-"
+  },
+  "helpCommandsAllDesc": {
+    "message": "Open all suggestions matching tags in a new window.", 
+    "description": "-"
+  },
+  "helpCommandsHelpTitle": {
+    "message": ":help", 
+    "description": "-"
+  },
+  "helpCommandsHelpDesc": {
+    "message": "Open the options page and show the help tab.", 
+    "description": "-"
+  },
+  "helpCommandsSettingsTitle": {
+    "message": ":settings", 
+    "description": "-"
+  },
+  "helpCommandsSettingsDesc": {
+    "message": "Open the options page and show the suggestions tab.", 
+    "description": "-"
+  },
+  "helpCommandsAddTitle": {
+    "message": ":add [TAGS]", 
+    "description": "-"
+  },
+  "helpCommandsAddDesc": {
+    "message": "Add the uri of the current tab as a suggestion with the tags passed in parameters.", 
+    "description": "-"
+  },
+  "helpCommandsEditTitle": {
+    "message": ":edit [OPTIONAL TAGS]", 
+    "description": "-"
+  },
+  "helpCommandsEditDesc": {
+    "message": "Open the options page and show the suggestions tab with a filter. By default, the filter is the uri of the current tab. You can also select a custom suggestion to edit by specifying tags.", 
+    "description": "-"
+  }
 }

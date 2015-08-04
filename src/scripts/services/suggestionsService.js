@@ -76,13 +76,15 @@
 
 				function importAll(text) {
 
-					if (!text)
+					if (!text) {
 						return;
+					}
 
 					var parsedSuggestions = JSON.parse(text);
 
-					if (!parsedSuggestions || parsedSuggestions.constructor !== Array)
+					if (!parsedSuggestions || parsedSuggestions.constructor !== Array) {
 						return;
+					}
 
 					var isASuggestion = suggestion => parsedSuggestion !== null && typeof parsedSuggestion === 'object' && parsedSuggestion.uri && (typeof parsedSuggestion.uri === 'string' || parsedSuggestion.uri instanceof String) && parsedSuggestion.tags && parsedSuggestion.tags.constructor === Array;
 					
@@ -91,10 +93,10 @@
 							if (!suggestions.some(suggestion => suggestion.uri === parsedSuggestion.uri)) {
 								suggestions.push(parsedSuggestion);
 							} else {
-								browser.notify('...');
+								browser.notify('The suggestion was already added');
 							}
 						} else {
-							browser.notify('...');
+							browser.notify('The suggestion is misformatted');
 						}
 					});
 

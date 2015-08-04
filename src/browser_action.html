@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 	    <meta http-equiv="X-UA-Cpatible" content="IE=edge">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Quicklaunch</title>
+		<title>{{browser.translate('appName')}}</title>
 
 		<link href="styles/bootstrap.min.css" rel="stylesheet">
 		<link href="styles/app.css" rel="stylesheet">
@@ -12,7 +12,8 @@
 	<body ng-app="app">
 		<div ng-controller="mainCtrl" class="small-margin">
 			<div suggest entry="ql.query" get-suggest='ql.getSuggest(value)'>
-				<input type="text" class="form-control medium-width suggest-input" ng-model="ql.query" ng-keyup="keyup($event.keyCode)" placeholder="Lost? Type :help to access help page"/>
+				<input type="text" class="form-control medium-width suggest-input" ng-model="ql.query" ng-keyup="keyup($event.keyCode)" 
+				placeholder="{{browser.translate('actionSearchPlaceholder')}}"/>
 			</div>
 			<div class="list-group">
 				<div ng-repeat="suggestion in ql.filterSuggestions(ql.query)" ng-click="ql.validAt($index)" class="list-group-item item medium-width" ng-class="{active: $index === ql.selectedSuggestions.index}">
