@@ -13,6 +13,7 @@
 				};
 
 				function run(str) {
+					
 					var entries = [];
 					var entry = '';
 

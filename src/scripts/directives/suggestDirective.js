@@ -12,7 +12,7 @@
 					 	entry: '=',
 					 	getSuggest: '&'
 					 },
-					 template: '<div class="suggest-wrapper"><ng-transclude></ng-transclude><div class="suggest-placeholder">{{suggestValue}}</div></div>',
+					 templateUrl: 'suggest.tpl',
 					 link: function (scope, element) {
 					 	scope.suggestValue = '';
 

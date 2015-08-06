@@ -22,7 +22,7 @@
 
 				function load() {
 
-					browser.getStorage(storageKey).then((data) => {
+					browser.getStorage(storageKey).then(data => {
 						data = migration.run(data);
 						$timeout(() => {
 							data.forEach(suggestion => suggestions.push(suggestion));
@@ -39,18 +39,22 @@
 					browser.setStorage(data);
 				};
 
-				function add(newSuggestion) {
+				function add(newSuggestion, showNotification) {
 
 					var exist = suggestions.some(suggestion => suggestion.uri === newSuggestion.uri);
 					
 					if (exist) {
-						browser.notify(browser.translate('errorSuggestionExist'));
+						if (showNotification) {
+							browser.notify(browser.translate('errorSuggestionExist'));
+						}
 					} else {
 						suggestions.push({ uri: newSuggestion.uri, tags: newSuggestion.tags || [] });
 						
 						save();
-
-						browser.notify(browser.translate('confirmSuggestionAdded'));
+						
+						if (showNotification) {
+							browser.notify(browser.translate('confirmSuggestionAdded'));
+						}
 					}
 				};
 
@@ -88,9 +92,14 @@
 							return;
 						}
 
-						var isASuggestion = suggestion => parsedSuggestion !== null && typeof parsedSuggestion === 'object' && parsedSuggestion.uri && (typeof parsedSuggestion.uri === 'string' || parsedSuggestion.uri instanceof String) && parsedSuggestion.tags && parsedSuggestion.tags.constructor === Array;
+						var isASuggestion = suggestion => suggestion !== null && typeof suggestion === 'object' && suggestion.uri && (typeof suggestion.uri === 'string' || suggestion.uri instanceof String) && suggestion.tags && suggestion.tags.constructor === Array;
 						
-						parsedSuggestions.forEach(function(parsedSuggestion) {
+						parsedSuggestions.forEach(parsedSuggestion => {
+
+							if (migration.isAOldSuggestion(parsedSuggestion)) {
+								parsedSuggestion = migration.migrate(parsedSuggestion);
+							}
+
 							if (isASuggestion(parsedSuggestion)) {
 								if (!suggestions.some(suggestion => suggestion.uri === parsedSuggestion.uri)) {								
 									suggestions.push(parsedSuggestion);

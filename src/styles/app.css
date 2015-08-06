@@ -58,3 +58,9 @@ div.list-group-item + div.no-items {
 .label {
 	display: inline-block !important;
 }
+
+.scroll-modal .modal-body
+{
+  max-height:500px;
+  overflow:auto;
+}

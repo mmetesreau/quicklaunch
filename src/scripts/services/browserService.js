@@ -82,7 +82,7 @@
 
 					var deferred = $q.defer();
 
-					chrome.bookmarks.getTree(function(bookmarkTreeNode) {
+					chrome.bookmarks.getTree(bookmarkTreeNode => {
 						if (bookmarkTreeNode) {
 							deferred.resolve(bookmarkTreeNode);
 						} else {

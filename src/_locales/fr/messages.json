@@ -59,12 +59,12 @@
     "message": "[{uri: 'http://myuri.tld',tags: ['tag1', 'tag2']}]", 
     "description": "-"
   },
-  "helpImportBookmarksOkButton": {
+  "helpImportBookmarksCloseButton": {
     "message": "Close", 
     "description": "-"
   },
-  "helpImportBookmarksAddButton": {
-    "message": "Add", 
+  "helpImportBookmarksAddAllButton": {
+    "message": "Add All", 
     "description": "-"
   },
   "helpImportNoBookmark": {
@@ -75,7 +75,7 @@
     "message": "Export suggestions", 
     "description": "-"
   },
-  "helpExportOkButton": {
+  "helpExportCloseButton": {
     "message": "Close", 
     "description": "-"
   },

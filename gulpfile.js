@@ -10,6 +10,7 @@ var gulp = require('gulp'),
 	concat  = require('gulp-concat'),
 	merge = require('merge-stream'),
 	zip = require('gulp-zip'),
+	templateCache = require('gulp-angular-templatecache'),
 	babel = require('gulp-babel');
 
 //clean build directory
@@ -62,7 +63,7 @@ gulp.task('scripts', ['jshint'], function() {
 		.pipe(babel())
 		.pipe(stripdebug())
 		.pipe(concat('app.js'))
-		//.pipe(uglify({outSourceMap: false}))
+		.pipe(uglify({outSourceMap: false}))
 		.pipe(gulp.dest('build/scripts'));
 
 	return merge(vendorsScripts,appScripts);
@@ -75,8 +76,16 @@ gulp.task('styles', function() {
  		.pipe(gulp.dest('build/styles'));
 });
 
+//minify styles
+gulp.task('templates', function() {
+ 	return gulp.src('src/templates/**/*.tpl')
+ 		.pipe(cleanhtml())
+ 		.pipe(templateCache({module :'app'}))
+ 		.pipe(gulp.dest('build/scripts'));
+});
+
 //build ditributable and sourcemaps after other tasks completed
-gulp.task('zip', ['html', 'scripts', 'styles', 'copy'], function() {
+gulp.task('zip', ['html', 'scripts', 'templates','styles', 'copy'], function() {
 	var manifest = require('./src/manifest'),
 		distFileName = manifest.name + ' v' + manifest.version + '.zip',
 		mapFileName = manifest.name + ' v' + manifest.version + '-maps.zip';

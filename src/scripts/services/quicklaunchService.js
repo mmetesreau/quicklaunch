@@ -29,6 +29,7 @@
 				};
 	   			
 				function getBookmarks() {
+					
 					return browser.getBookmarks().then(bookmarkTreeNode => {
 						if(!bookmarkTreeNode) {
 							return [];
@@ -102,7 +103,7 @@
 					var tags = command.tags;
 
 					if (command.options.add) {	
-						browser.getCurrentTab().then(url => suggestions.add({ uri: url, tags: tags }));
+						browser.getCurrentTab().then(url => suggestions.add({ uri: url, tags: tags }, true));
 					} else if (command.options.session && filteredSuggestions.length > 0) {
 						browser.openSessionTab(filteredSuggestions.map(fs => fs.uri),command.options.incognito);
 					} else if (command.options.settings) {
