@@ -16,7 +16,7 @@
 				placeholder="{{browser.translate('actionSearchPlaceholder')}}"/>
 			</div>
 			<div class="list-group">
-				<div ng-repeat="suggestion in ql.filterSuggestions(ql.query) track by $index" ng-click="ql.validAt($index)" class="list-group-item item medium-width" ng-class="{active: $index === ql.selectedSuggestions.index}">
+				<div ng-repeat="suggestion in ql.filterSuggestions(ql.query) track by suggestion.uri" ng-click="ql.validAt($index)" class="list-group-item item medium-width" ng-class="{active: $index === ql.selectedSuggestions.index}">
 					<div>{{suggestion.uri}}</div>
 					<tags-viewer tags="suggestion.tags" pull-right="true"></tags-viewer>
 					<div class="clearfix"></div>

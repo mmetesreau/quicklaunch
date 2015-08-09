@@ -56,7 +56,7 @@
     "description": "-"
   },
   "helpImportTextPlaceholder": {
-    "message": "[{uri: 'http://myuri.tld',tags: ['tag1', 'tag2']}]", 
+    "message": "[{\"uri\": \"http://myuri.tld\",\"tags\": [\"tag1\", \"tag2\"]}]", 
     "description": "-"
   },
   "helpImportBookmarksCloseButton": {
