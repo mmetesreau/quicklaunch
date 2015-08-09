@@ -2,6 +2,7 @@
 
 - Refacto
 - Tests
+- Sync storage
 - Suggest tags
 - Alias 
 - Post 
