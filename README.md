@@ -2,8 +2,8 @@
 
 - Refacto
 - Tests
-- From fav
-- Alias
-- Post
-- Paginate
-- Limit
+- Suggest tags
+- Alias 
+- Post 
+- Paginate 
+- Limit 
