@@ -3,8 +3,8 @@
 
 	angular
 		.module('app')
-		.service('commands',['parser','options',
-			function(parser,options) {
+		.service('commands',['parser','options','ternarySearchTree',
+			function(parser,options,ternarySearchTree) {
 
 				return {
 					parse: parse,
@@ -49,34 +49,26 @@
 					return command;
 				};
 
-				function suggest(search) {
-					
-					if (!search || search === '') {
+				function suggest(lastPart) {
+
+	   				var tst = ternarySearchTree.ternarySearchTree();
+
+	   				tst.add(options.session);
+	   				tst.add(options.settings);
+	   				tst.add(options.edit);
+	   				tst.add(options.priv);
+	   				tst.add(options.help);
+	   				tst.add(options.add);
+	   				tst.add(options.queryString);
+
+	   				var searchResult = tst.prefixSearch(lastPart);
+
+
+	   				if (!searchResult || searchResult.length == 0) {
 	   					return '';
-					}
-
-	   				var pos = search.lastIndexOf(' ');
-	   				pos = pos === -1 ? 0 : (pos + 1);
-
-	   				var lastPart = search.substring(pos);
-
-					if (lastPart !== '' && options.session.startsWith(lastPart)) {
-						return search.substring(0,pos) + options.session;
-					} else if (lastPart !== '' && options.settings.startsWith(lastPart)) {
-						return search.substring(0,pos) + options.settings;
-					} else if (lastPart !== '' && options.edit.startsWith(lastPart)) {
-						return search.substring(0,pos) + options.edit;
-					} else if (lastPart !== '' && options.priv.startsWith(lastPart)) {
-						return search.substring(0,pos) + options.priv;
-					} else if (lastPart !== '' && options.help.startsWith(lastPart)) {
-						return search.substring(0,pos) + options.help;
-					} else if (lastPart !== '' && options.add.startsWith(lastPart)) {
-						return search.substring(0,pos) + options.add;
-					} else if (lastPart !== '' && options.queryString.startsWith(lastPart)) {
-						return search.substring(0,pos) + options.queryString;
-					} else {
-						return '';
-					}
+	   				} else {
+	   					return searchResult[0];
+	   				}
 				};
 			}
 		]);

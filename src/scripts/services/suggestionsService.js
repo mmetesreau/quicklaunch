@@ -6,8 +6,8 @@
 
 	angular
 		.module('app')
-		.service('suggestions',['$timeout','browser','migration','storageTypes',
-			function($timeout,browser,migration,storageTypes) {
+		.service('suggestions',['$timeout','browser','migration','storageTypes','ternarySearchTree',
+			function($timeout,browser,migration,storageTypes,ternarySearchTree) {
 
 				var suggestions = [];
 				var storageType = storageTypes.local;
@@ -21,7 +21,26 @@
 					exportAll: exportAll,
 					importAll: importAll,
 					storageType: getSetstorageType,
-					storageTypes: storageTypes
+					storageTypes: storageTypes,
+					suggest: suggest
+				};
+
+				function suggest(lastPart) {
+
+	   				var tst = ternarySearchTree.ternarySearchTree();
+
+	   				suggestions.forEach(suggestion => {
+	   					if (suggestion.tags)
+	   						tst.addRange(suggestion.tags);
+	   				});
+
+	   				var searchResult = tst.prefixSearch(lastPart);
+
+	   				if (!searchResult || searchResult.length == 0) {
+	   					return '';
+	   				} else {
+	   					return searchResult[0];
+	   				}
 				};
 
 				function getSetstorageType(newValue) {

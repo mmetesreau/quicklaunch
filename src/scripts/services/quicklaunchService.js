@@ -24,10 +24,34 @@
 					valid: valid,
 					suggestions: suggestions,
 					query: query,
-					getSuggest: commands.suggest,
+					getSuggest: getSuggest,
 					getBookmarks: getBookmarks
 				};
 	   			
+				function getSuggest(search) {
+
+					if (!search || search === '') {
+	   					return '';
+					}
+
+	   				var pos = search.lastIndexOf(' ');
+	   				pos = pos === -1 ? 0 : (pos + 1);
+
+	   				var lastPart = search.substring(pos);
+
+	   				if (lastPart === '') {
+	   					return '';
+	   				}
+
+	   				var result =  commands.suggest(lastPart);
+
+	   				if (result === '') {
+	   					result = suggestions.suggest(lastPart);
+	   				} 
+
+	   				return result === '' ? '' : search.substring(0,pos) + result;
+				};
+
 				function getBookmarks() {
 					
 					return browser.getBookmarks().then(bookmarkTreeNode => {
