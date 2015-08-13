@@ -12,7 +12,7 @@
 	<body ng-app="app">
 		<div ng-controller="optionsCtrl" class="container">  
 			
-			<div class="btn-group pull-right small-top-vertical-margin" dropdown dropdown-append-to-body>
+			<div class="btn-group pull-right small-top-vertical-margin indent-left" dropdown dropdown-append-to-body>
 				<button type="button" class="btn btn-default" dropdown-toggle>
 					<span class="glyphicon glyphicon-option-vertical"></span>
 				</button>
@@ -28,6 +28,15 @@
 			    		<a href="#" ng-click="importBookmarks()">{{browser.translate('helpImportBookmarks')}}</a>
 			    	</li>
 			 	</ul>
+			</div>
+
+			<div class="btn-group pull-right small-top-vertical-margin indent-right">
+				<label class="btn btn-default" ng-class="{active: ql.suggestions.storageType() === ql.suggestions.storageTypes.local}">
+					<input type="radio" class="hide" ng-model="ql.suggestions.storageType" ng-model-options="{ getterSetter: true }" ng-value="ql.suggestions.storageTypes.local"> {{browser.translate('helpLocalStorage')}}
+				</label>
+				<label class="btn btn-default" ng-class="{active: ql.suggestions.storageType() === ql.suggestions.storageTypes.sync}">
+				<input type="radio" class="hide" ng-model="ql.suggestions.storageType" ng-model-options="{ getterSetter: true }" ng-value="ql.suggestions.storageTypes.sync"> {{browser.translate('helpSyncStorage')}}
+				</label>
 			</div>
 
 			<tabset class="small-top-vertical-margin">

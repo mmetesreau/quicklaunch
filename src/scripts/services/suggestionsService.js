@@ -1,14 +1,16 @@
 (function() {
 	'use strict';
 	
-	var storageKey = 'suggestions';
+	var storageKey = 'suggestions',
+	syncStorageKey = 'suggestions';
 
 	angular
 		.module('app')
-		.service('suggestions',['$timeout','browser','migration',
-			function($timeout,browser,migration) {
+		.service('suggestions',['$timeout','browser','migration','storageTypes',
+			function($timeout,browser,migration,storageTypes) {
 
 				var suggestions = [];
+				var storageType = storageTypes.local;
 
 				return {
 					all: suggestions,
@@ -17,26 +19,56 @@
 					add: add,
 					remove: remove,
 					exportAll: exportAll,
-					importAll: importAll
+					importAll: importAll,
+					storageType: getSetstorageType,
+					storageTypes: storageTypes
+				};
+
+				function getSetstorageType(newValue) {
+					if (angular.isDefined(newValue)) {
+						storageType = newValue;
+						save();
+					}
+
+					return storageType;
 				};
 
 				function load() {
 
-					browser.getStorage(storageKey).then(data => {
-						data = migration.run(data);
-						$timeout(() => {
-							data.forEach(suggestion => suggestions.push(suggestion));
-						});
+					browser.getSyncStorage(syncStorageKey).then(syncData => {
+						if (!syncData.storageType || syncData.storageType === storageTypes.local) {
+							browser.getStorage(storageKey).then(data => {
+								data = migration.run(data);
+								$timeout(() => {
+									data.forEach(suggestion => suggestions.push(suggestion));
+								});
+							});
+						} else {
+							storageType = syncData.storageType;
+							$timeout(() => {
+								syncData[storageKey].forEach(suggestion => suggestions.push(suggestion));
+							});
+						}
 					});
 				};
 
 				function save() {
 
-					var data = {};
+					var syncData = {}, data = {};
 
 					data[storageKey] = suggestions || [];
+					syncData[syncStorageKey] = {
+						storageType: storageType
+					};
 
-					browser.setStorage(data);
+					if (storageType === storageTypes.local) {
+						browser.setStorage(data);
+					} else {
+						browser.removeStorage(storageKey);
+						syncData[syncStorageKey][storageKey] = suggestions || [];
+					}
+
+					browser.setSyncStorage(syncData);
 				};
 
 				function add(newSuggestion, showNotification) {

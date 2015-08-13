@@ -16,6 +16,9 @@
 					getCurrentTab: getCurrentTab,
 					setStorage: setStorage,
 					getStorage: getStorage,
+					setSyncStorage: setSyncStorage,
+					getSyncStorage: getSyncStorage,
+					removeStorage: removeStorage,
 					getBookmarks: getBookmarks
 				};
 
@@ -37,11 +40,16 @@
 
 					var deferred = $q.defer();
 
-					chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
+					chrome.tabs.query({ currentWindow: true, active: true }, tabs => {
 						deferred.resolve(tabs[0].url);
 					});
 
 					return deferred.promise;
+				};
+
+				function removeStorage(key) {
+
+					chrome.storage.local.remove(key);
 				};
 
 				function setStorage(data) {
@@ -53,11 +61,31 @@
 
 					var deferred = $q.defer();
 
-					chrome.storage.local.get(function(storage) {
+					chrome.storage.local.get(storage => {
 						if (storage && storage[key]) {
 							deferred.resolve(storage[key]);
 						} else {
 							deferred.resolve([]);
+						}
+					});
+
+					return deferred.promise;
+				};
+
+				function setSyncStorage(data) {
+
+					chrome.storage.sync.set(data);
+				};
+
+				function getSyncStorage(key) {
+
+					var deferred = $q.defer();
+
+					chrome.storage.sync.get(storage => {
+						if (storage && storage[key]) {
+							deferred.resolve(storage[key]);
+						} else {
+							deferred.resolve({});
 						}
 					});
 

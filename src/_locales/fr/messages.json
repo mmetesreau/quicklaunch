@@ -27,6 +27,14 @@
     "message": "Lost? Type :help to access help page", 
     "description": "-"
   },
+  "helpLocalStorage": {
+    "message": "Local Storage", 
+    "description": "-"
+  },
+  "helpSyncStorage": {
+    "message": "Sync Storage", 
+    "description": "-"
+  },
   "helpSuggestionsTabHeader": {
     "message": "Suggestions", 
     "description": "-"
