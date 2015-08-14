@@ -23,6 +23,14 @@
     "message": "The suggestion has been added", 
     "description": "-"
   },
+  "confirmLocalStorage": {
+    "message": "You are now using local storage", 
+    "description": "-"
+  },
+  "confirmSyncStorage": {
+    "message": "You are now using sync storage", 
+    "description": "-"
+  },  
   "actionSearchPlaceholder": {
     "message": "Lost? Type :help to access help page", 
     "description": "-"

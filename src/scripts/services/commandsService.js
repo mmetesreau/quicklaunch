@@ -63,12 +63,7 @@
 
 	   				var searchResult = tst.prefixSearch(lastPart);
 
-
-	   				if (!searchResult || searchResult.length == 0) {
-	   					return '';
-	   				} else {
-	   					return searchResult[0];
-	   				}
+	   				return (!searchResult || searchResult.length == 0) ? '' : return searchResult[0];
 				};
 			}
 		]);

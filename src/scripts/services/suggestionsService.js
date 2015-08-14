@@ -44,9 +44,11 @@
 				};
 
 				function getSetstorageType(newValue) {
+
 					if (angular.isDefined(newValue)) {
 						storageType = newValue;
 						save();
+						browser.notify(browser.translate(storageType === storageTypes.local ? 'confirmLocalStorage' : 'confirmSyncStorage'));
 					}
 
 					return storageType;
