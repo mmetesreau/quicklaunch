@@ -1,6 +1,6 @@
 # Quicklaunch
 
-If like me, you have too many favorites and you think that finding links in Betlic summary pages is slow then Quicklaunch may help you.
+If like me, you have too many favorites then Quicklaunch may help you.
 
 Quicklaunch is a chrome's extension which bring a custom search bar and provide a way to find link like this:
 
