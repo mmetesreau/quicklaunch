@@ -18,7 +18,7 @@
 							if (item.tags && item.tags.length > 0) {
 								var queryParts = query.split(' ').map(queryPart => queryPart.trim().toLocaleLowerCase());
 
-								if (queryParts.every(queryPart => item.tags.some(tag => tag.indexOf(queryPart) !== -1 ))) {
+								if (queryParts.every(queryPart => item.uri.indexOf(queryPart) !== -1 || item.tags.some(tag => tag.indexOf(queryPart) !== -1))) {
 									filtered.push(item);
 								}
 							}
