@@ -65,7 +65,7 @@
 					</div>
 					
 					<div class="list-group small-vertical-margin">
-						<div ng-repeat="suggestion in ql.suggestions.all | filter:q track by suggestion.uri" class="list-group-item">
+						<div ng-repeat="suggestion in ql.suggestions.all | anytags:q track by suggestion.uri" class="list-group-item">
 							<div class="row" ng-init="currentMode = 'view'">
 								<div ng-switch="currentMode">
 
