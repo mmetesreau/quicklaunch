@@ -6,7 +6,7 @@ Quicklaunch is an extension which bring a custom search bar and provide a way to
 
 ![Use case](/src/img/demo.gif?raw=true "Use case")
 
-If you are interested, you can install it from the ![Chrome Webstore](https://chrome.google.com/webstore/detail/quicklaunch/pkcmlalpmnilmdhhfhopppiipaajoifm) or the ![Firefox Add-ons](https://addons.mozilla.org/fr/firefox/addon/quicklaunch/).
+If you are interested, you can install it from the [Chrome Webstore](https://chrome.google.com/webstore/detail/quicklaunch/pkcmlalpmnilmdhhfhopppiipaajoifm) or the [Firefox Add-ons](https://addons.mozilla.org/fr/firefox/addon/quicklaunch/).
 
 And don't hesitate to fork or send pull request :)
 
