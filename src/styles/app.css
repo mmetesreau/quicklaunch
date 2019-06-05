@@ -50,6 +50,7 @@ div.list-group-item + div.no-items {
 }
 
 .suggest-placeholder {
+	padding: 6px 12px;
 	position: absolute; 
 	z-index:-5;
 	color: #ccc;
