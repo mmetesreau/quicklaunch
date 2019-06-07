@@ -8,31 +8,31 @@
     "description":"The description of the application, displayed in the web store."
   },
   "errorUnknow": {
-    "message": "Something wrong happend", 
+    "message": "Une erreur est survenue", 
     "description": "-"
   },
   "errorSuggestionExist": {
-    "message": "The suggestion was already added", 
+    "message": "La suggestion a déjà été ajoutée", 
     "description": "-"
   },
   "errorSuggestionMisformatted": {
-    "message": "The suggestion is misformatted", 
+    "message": "La suggestion est malformée", 
     "description": "-"
   },
   "confirmSuggestionAdded": {
-    "message": "The suggestion has been added", 
+    "message": "La suggestion a été ajoutée", 
     "description": "-"
   },
   "confirmLocalStorage": {
-    "message": "You are now using local storage", 
+    "message": "Vous utilisez maintenant le local storage", 
     "description": "-"
   },
   "confirmSyncStorage": {
-    "message": "You are now using sync storage", 
+    "message": "Vous utilisez maintenant le sync storage", 
     "description": "-"
   },  
   "actionSearchPlaceholder": {
-    "message": "Lost? Type :help to access help page", 
+    "message": "Perdu ? Tapez :help pour accéder la page d'aide", 
     "description": "-"
   },
   "helpLocalStorage": {
@@ -48,27 +48,27 @@
     "description": "-"
   },
   "helpHelpTabHeader": {
-    "message": "Help", 
+    "message": "Aide", 
     "description": "-"
   },
   "helpNoSuggestion": {
-    "message": "No suggestion yet :(", 
+    "message": "Aucune suggestion :(", 
     "description": "-"
   },
   "helpImportBookmarks": {
-    "message": "Import bookmarks", 
+    "message": "Importer les favoris", 
     "description": "-"
   },
   "helpImportSuggestions": {
-    "message": "Import suggestions", 
+    "message": "Importer les suggestions", 
     "description": "-"
   },
   "helpImportOkButton": {
-    "message": "Import", 
+    "message": "Importer", 
     "description": "-"
   },
   "helpImportCancelButton": {
-    "message": "Close", 
+    "message": "Fermer", 
     "description": "-"
   },
   "helpImportTextPlaceholder": {
@@ -76,39 +76,39 @@
     "description": "-"
   },
   "helpImportBookmarksCloseButton": {
-    "message": "Close", 
+    "message": "Fermer", 
     "description": "-"
   },
   "helpImportBookmarksAddAllButton": {
-    "message": "Add All", 
+    "message": "Ajouter tous", 
     "description": "-"
   },
   "helpImportNoBookmark": {
-    "message": "You have no bookmark...", 
+    "message": "Vous n'avez pas de favoris...", 
     "description": "-"
   },
   "helpExportSuggestions": {
-    "message": "Export suggestions", 
+    "message": "Exporter les suggestions", 
     "description": "-"
   },
   "helpExportCloseButton": {
-    "message": "Close", 
+    "message": "Fermer", 
     "description": "-"
   },
   "helpNewSuggestionUriPlaceholder": {
-    "message": "Uri", 
+    "message": "Url", 
     "description": "-"
   },
   "helpNewSuggestionTagsPlaceholder": {
-    "message": "Enter a few letters and type space or enter to validate", 
+    "message": "Entrez quelques lettre et validez avec espace ou entrée", 
     "description": "-"
   },
   "helpSearchSuggestionPlaceholder": {
-    "message": "Search", 
+    "message": "Chercher", 
     "description": "-"
   },
   "helpUsageTitle": {
-    "message": "Usage:", 
+    "message": "Utilisation :", 
     "description": "-"
   },
   "helpUsageDesc1": {
@@ -120,7 +120,7 @@
     "description": "-"
   },
   "helpShortcutTitle": {
-    "message": "Set up custom shortcut:", 
+    "message": "Configurer le raccourci :", 
     "description": "-"
   },
   "helpShortcutChromeTitle": {
@@ -128,7 +128,7 @@
     "description": "-"
   },
   "helpShortcutChromeDesc": {
-    "message": "Head to chrome://extensions/shortcuts in your browser's address bar. Scroll down until you see Quicklaunch's options and set up custom shortcut.", 
+    "message": "Ouvrir la page chrome://extensions/shortcuts dans votre navigateur. Faites défiler l'écran pour voir les options correspondantes à l'extension Quicklaunch et configurez votre raccourci.", 
     "description": "-"
   },
   "helpShortcutFirefoxTitle": {
@@ -136,11 +136,11 @@
     "description": "-"
   },
   "helpShortcutFirefoxDesc": {
-    "message": "Head to about:addons in your browser's address bar. Select Extensions. Click the Tools for all add-ons cogwheel and then click Manage Extension Shortcuts in the menu. Scroll down until you see Quicklaunch's options and set up custom shortcut.", 
+    "message": "Ouvrir la page about:addons dans votre navigateur. Choisissez Extensions. Cliquez sur la roue dentée Outils pour tous les modules puis cliquez sur Gérer les raccourcis d’extensions dans le menu. Faites défiler l'écran pour voir les options correspondantes à l'extension Quicklaunch et configurez votre raccourci.", 
     "description": "-"
   },
   "helpCommandsTitle": {
-    "message": "Special commands:", 
+    "message": "Commandes spéciales :", 
     "description": "-"
   },
   "helpCommandsQueryStringTitle": {
@@ -148,7 +148,7 @@
     "description": "-"
   },
   "helpCommandsQueryStringDesc": {
-    "message": "Open the selected suggestion and append the query string to the uri.", 
+    "message": "Ouvre la suggestion sélectionnée avec la query string.", 
     "description": "-"
   },
   "helpCommandsPrivTitle": {
@@ -156,7 +156,7 @@
     "description": "-"
   },
   "helpCommandsPrivDesc": {
-    "message": "Open the selected suggestion in a new private tab.", 
+    "message": "Ouvre la suggestion sélectionnée dans un onglet privé.", 
     "description": "-"
   },
   "helpCommandsAllTitle": {
@@ -164,7 +164,7 @@
     "description": "-"
   },
   "helpCommandsAllDesc": {
-    "message": "Open all suggestions matching tags in a new window.", 
+    "message": "Ouvre toutes les suggestions correspondantes aux tags dans une nouvelle fenêtre.", 
     "description": "-"
   },
   "helpCommandsHelpTitle": {
@@ -172,7 +172,7 @@
     "description": "-"
   },
   "helpCommandsHelpDesc": {
-    "message": "Open the options page and show the help tab.", 
+    "message": "Ouvre la page d'options et affiche l'aide.", 
     "description": "-"
   },
   "helpCommandsSettingsTitle": {
@@ -180,7 +180,7 @@
     "description": "-"
   },
   "helpCommandsSettingsDesc": {
-    "message": "Open the options page and show the suggestions tab.", 
+    "message": "Ouvtre la page d'options et affiche les suggestions.", 
     "description": "-"
   },
   "helpCommandsAddTitle": {
@@ -188,7 +188,7 @@
     "description": "-"
   },
   "helpCommandsAddDesc": {
-    "message": "Add the uri of the current tab as a suggestion with the tags passed in parameters.", 
+    "message": "Ajoute l'url de l'onglet courant avec les tags passés en paramètres.", 
     "description": "-"
   },
   "helpCommandsEditTitle": {
@@ -196,7 +196,7 @@
     "description": "-"
   },
   "helpCommandsEditDesc": {
-    "message": "Open the options page and show the suggestions tab with a filter. By default, the filter is the uri of the current tab. You can also select a custom suggestion to edit by specifying tags.", 
+    "message": "Ouvre la page d'option and affiche les suggestions filtrées. Par défaut, le filtre est l'url de l'onglet courant. Vous pouvez aussi sélectionner une suggestion particulière à éditer en spécifiant des tags.", 
     "description": "-"
   }
 }
