@@ -52,10 +52,3 @@ Add the uri of the current tab as a suggestion with the tags passed in parameter
 npm install
 gulp
 ```
-
-# TODO
-
-- Alias 
-- Post 
-- Paginate 
-- Limit 

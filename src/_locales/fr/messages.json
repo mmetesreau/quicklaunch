@@ -119,7 +119,27 @@
     "message": "But how can I manage my suggestions? Go to the options page or use directly the quicklaunch search bar and the special commands.", 
     "description": "-"
   },
-    "helpCommandsTitle": {
+  "helpShortcutTitle": {
+    "message": "Set up custom shortcut:", 
+    "description": "-"
+  },
+  "helpShortcutChromeTitle": {
+    "message": "Chrome", 
+    "description": "-"
+  },
+  "helpShortcutChromeDesc": {
+    "message": "Head to chrome://extensions/shortcuts in your browser's address bar. Scroll down until you see Quicklaunch's options and set up custom shortcut.", 
+    "description": "-"
+  },
+  "helpShortcutFirefoxTitle": {
+    "message": "Firefox", 
+    "description": "-"
+  },
+  "helpShortcutFirefoxDesc": {
+    "message": "Head to about:addons in your browser's address bar. Select Extensions. Click the Tools for all add-ons cogwheel and then click Manage Extension Shortcuts in the menu. Scroll down until you see Quicklaunch's options and set up custom shortcut.", 
+    "description": "-"
+  },
+  "helpCommandsTitle": {
     "message": "Special commands:", 
     "description": "-"
   },

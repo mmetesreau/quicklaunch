@@ -86,9 +86,9 @@ gulp.task('templates', function() {
 
 //build ditributable and sourcemaps after other tasks completed
 gulp.task('zip', ['html', 'scripts', 'templates','styles', 'copy'], function() {
-	var manifest = require('./src/manifest'),
-		distFileName = manifest.name + ' v' + manifest.version + '.zip',
-		mapFileName = manifest.name + ' v' + manifest.version + '-maps.zip';
+	var packageFile = require('./package'),
+		distFileName = packageFile.name + ' v' + packageFile.version + '.zip',
+		mapFileName = packageFile.name + ' v' + packageFile.version + '-maps.zip';
 	//collect all source maps
 	var sourceMaps = gulp.src('build/scripts/**/*.map')
 		.pipe(zip(mapFileName))
