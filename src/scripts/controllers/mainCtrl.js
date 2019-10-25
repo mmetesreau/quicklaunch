@@ -7,8 +7,8 @@
 
 	angular
 		.module('app')
-		.controller('mainCtrl',['$scope','quicklaunch','browser',
-			function($scope,quicklaunch,browser) {
+		.controller('mainCtrl',['$scope', '$window','quicklaunch','browser',
+			function($scope,window,quicklaunch,browser) {
 				
 				quicklaunch.suggestions.load();
 
@@ -22,6 +22,7 @@
 						case keyEnter: 
 							quicklaunch.valid();
 							quicklaunch.query = '';
+							window.close();
 							break;
 						case keyDown: 
 							quicklaunch.selectDown();
