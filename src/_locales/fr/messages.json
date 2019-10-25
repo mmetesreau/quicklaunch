@@ -4,7 +4,7 @@
     "description": "The title of the application, displayed in the web store."
   },
   "appDesc": {
-    "message": "Press Ctrl+Shift+F and start searching your links using your own tags.", 
+    "message": "Pressez Ctrl+Shift+F et cherchez vos liens en utilisant vos propres tags.", 
     "description":"The description of the application, displayed in the web store."
   },
   "errorUnknow": {
@@ -112,11 +112,11 @@
     "description": "-"
   },
   "helpUsageDesc1": {
-    "message": "To begin, press Ctrl+Shift+F to display the quicklaunch search bar. Now you can start typing some tags to display a list of filtered uri. After that, use the arrow keys in order to quickly navigate through the list of suggestions and the enter key to select a suggestion.", 
+    "message": "Pour commencer, pressez Ctrl+Shift+F pour afficher la barre de recherche uicklaunch. Maintenant vous pouvez commencer à taper des tags pour afficher la liste filtrée de vos liens. Ensuite vous pouvez utilisez les fléches pour naviguer à travers les suggestions puis taper entrée pour en sélectionner une.", 
     "description": "-"
   },
   "helpUsageDesc2": {
-    "message": "But how can I manage my suggestions? Go to the options page or use directly the quicklaunch search bar and the special commands.", 
+    "message": "Mais comment puis-js gérer mes suggestions ? Allez dans la page options ou utilisez directement la barre de recherche quicklaunch et les commandes spéciales.", 
     "description": "-"
   },
   "helpShortcutTitle": {
