@@ -1,10 +1,14 @@
 {
   "name": "quicklaunch",
-  "version": "1.8",
+  "version": "1.8.0",
   "description": "-",
   "main": "gulpfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "url": "https://github.com/mmetesreau/quicklaunch.git",
+    "type": "git"
   },
   "author": "mickael.metesreau@gmail.com",
   "license": "BSD-2-Clause",

@@ -44,11 +44,11 @@ Add the uri of the current tab as a suggestion with the tags passed in parameter
 
 ## Requirements
 
-- NPM
+- Yarn
 
 ## Build
 
 ```
-npm install
+yarn install
 gulp
 ```
