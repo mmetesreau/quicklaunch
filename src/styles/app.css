@@ -50,7 +50,7 @@ div.list-group-item + div.no-items {
 }
 
 .suggest-placeholder {
-	padding: 6px 12px;
+	padding: 7px 12px;
 	position: absolute; 
 	z-index:-5;
 	color: #ccc;
@@ -65,3 +65,28 @@ div.list-group-item + div.no-items {
   max-height:500px;
   overflow:auto;
 }
+
+.uri-item {
+  font-size: 15px
+}
+
+.cut {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden; 
+}
+
+.text-right {
+  text-align: right;
+  width: 100%;
+}
+
+.label-grey {
+  background-color: #FBC02D;
+  border-color: #FBC02D;
+}
+
+.label-grey2 {
+	background-color: #95a5a6;
+	border-color: #95a5a6;
+  }

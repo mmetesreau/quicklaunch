@@ -22,7 +22,7 @@
 						case keyEnter: 
 							quicklaunch.valid();
 							quicklaunch.query = '';
-							$timeout(() => window.close(), 500);
+							$timeout(() => window.close(), 250);
 							break;
 						case keyDown: 
 							quicklaunch.selectDown();

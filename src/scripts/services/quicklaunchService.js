@@ -2,7 +2,7 @@
 	'use strict';
 
 	var limit = 10,
-		trigger = 3;
+		trigger = 2;
 
 	angular
 		.module('app')

@@ -16,13 +16,14 @@
 					 link: function (scope, element) {
 					 	scope.suggestValue = '';
 
-					 	var input = element.find('input');
+						var input = element.find('input');
+						 
 					 	var placeholder = element.find('.suggest-placeholder');
-
-					 	placeholder.css('height',input.css('input'));
+						 						
+					 	placeholder.css('height',input.css('height'));
 					 	placeholder.css('width',input.css('width'));
-					 	placeholder.css('padding',input.css('padding'));
-					 	placeholder.css('top',input.css('borderTopWidth'));
+						placeholder.css('padding',input.css('padding'));
+					 	placeholder.css('top',parseInt(input.css('borderTopWidth')) + 1);
 					 	placeholder.css('left',input.css('borderLeftWidth'));
 					 	placeholder.css('margin',input.css('margin'));
 					 	placeholder.css('fontFamily',input.css('fontFamily'));

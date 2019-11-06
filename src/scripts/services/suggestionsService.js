@@ -106,7 +106,7 @@
 						save();
 						
 						if (showNotification) {
-							browser.notify(browser.translate('confirmSuggestionAdded'));
+							//browser.notify(browser.translate('confirmSuggestionAdded'));
 						}
 					}
 				};
