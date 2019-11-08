@@ -6,8 +6,8 @@
 
 	angular
 		.module('app')
-		.service('suggestions',['$timeout','browser','migration','storageTypes','ternarySearchTree',
-			function($timeout,browser,migration,storageTypes,ternarySearchTree) {
+		.service('suggestions',['$timeout','browser','storageTypes','ternarySearchTree',
+			function($timeout,browser,storageTypes,ternarySearchTree) {
 
 				var suggestions = [];
 				var storageType = storageTypes.local;
@@ -59,7 +59,6 @@
 					browser.getSyncStorage(syncStorageKey).then(syncData => {
 						if (!syncData.storageType || syncData.storageType === storageTypes.local) {
 							browser.getStorage(storageKey).then(data => {
-								data = migration.run(data);
 								$timeout(() => {
 									data.forEach(suggestion => suggestions.push(suggestion));
 								});
@@ -104,10 +103,6 @@
 						suggestions.push({ uri: newSuggestion.uri, tags: newSuggestion.tags || [] });
 						
 						save();
-						
-						if (showNotification) {
-							//browser.notify(browser.translate('confirmSuggestionAdded'));
-						}
 					}
 				};
 
@@ -148,11 +143,7 @@
 						var isASuggestion = suggestion => suggestion !== null && typeof suggestion === 'object' && suggestion.uri && (typeof suggestion.uri === 'string' || suggestion.uri instanceof String) && suggestion.tags && suggestion.tags.constructor === Array;
 						
 						parsedSuggestions.forEach(parsedSuggestion => {
-
-							if (migration.isAOldSuggestion(parsedSuggestion)) {
-								parsedSuggestion = migration.migrate(parsedSuggestion);
-							}
-
+							
 							if (isASuggestion(parsedSuggestion)) {
 								if (!suggestions.some(suggestion => suggestion.uri === parsedSuggestion.uri)) {								
 									suggestions.push(parsedSuggestion);

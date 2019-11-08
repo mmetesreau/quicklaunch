@@ -10,7 +10,6 @@
 			function(suggestions,commands,browser,pages) {
 
 				var query = '';
-				var suggestQuery = '';
 				var command = {};
 				var filteredSuggestions = [];
 				var selectedSuggestions = { index: 0 };
