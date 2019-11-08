@@ -50,5 +50,5 @@ Add the uri of the current tab as a suggestion with the tags passed in parameter
 
 ```
 yarn install
-gulp
+yarn build
 ```

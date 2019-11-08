@@ -2,9 +2,9 @@
   "name": "quicklaunch",
   "version": "2.0.0",
   "description": "-",
-  "main": "gulpfile.js",
+  "main": "",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "gulp"
   },
   "repository": {
     "url": "https://github.com/mmetesreau/quicklaunch.git",
@@ -14,8 +14,6 @@
   "license": "BSD-2-Clause",
   "devDependencies": {
     "angular": "^1.4.2",
-    "angular-mocks": "^1.4.1",
-    "chai": "^3.0.0",
     "gulp-angular-templatecache": "^1.7.0",
     "gulp-babel": "^5.2.0",
     "gulp-clean": "~0.3.1",
@@ -26,15 +24,9 @@
     "gulp-strip-debug": "~1.0.2",
     "gulp-uglify": "~1.2.0",
     "gulp-zip": "~3.0.2",
-    "karma": "^0.12.37",
-    "karma-chai": "^0.1.0",
-    "karma-mocha": "^0.2.0",
-    "karma-phantomjs-launcher": "^0.2.0",
     "merge-stream": "^0.1.8",
-    "mocha": "^2.2.5",
-    "phantomjs": "^1.9.17"
+    "gulp": "~3.9.1"
   },
   "dependencies": {
-    "gulp": "~3.9.1"
   }
 }
