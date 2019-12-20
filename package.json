@@ -13,7 +13,7 @@
   "author": "mickael.metesreau@gmail.com",
   "license": "BSD-2-Clause",
   "devDependencies": {
-    "angular": "^1.4.2",
+    "angular": "^1.7.9",
     "gulp-angular-templatecache": "^1.7.0",
     "gulp-babel": "^5.2.0",
     "gulp-clean": "~0.3.1",
