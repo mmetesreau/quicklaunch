@@ -1,6 +1,6 @@
 {
   "name": "quicklaunch",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "-",
   "main": "",
   "scripts": {
@@ -9,6 +9,9 @@
   "repository": {
     "url": "https://github.com/mmetesreau/quicklaunch.git",
     "type": "git"
+  },
+  "resolutions": {
+    "graceful-fs": "^4.2.9"
   },
   "author": "mickael.metesreau@gmail.com",
   "license": "BSD-2-Clause",

@@ -44,7 +44,9 @@ Add the uri of the current tab as a suggestion with the tags passed in parameter
 
 ## Requirements
 
-- Yarn
+- Node 16.13.0
+- Npm 8.1.0
+- Yarn 1.22.18
 
 ## Build
 
