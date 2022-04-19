@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "Quicklaunch",
+    "description": "The title of the application, displayed in the web store."
+  },
+  "appDesc": {
+    "message": "Press Ctrl+Shift+F and start searching your links using your own tags.", 
+    "description":"The description of the application, displayed in the web store."
+  }
+}
