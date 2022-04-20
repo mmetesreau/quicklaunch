@@ -2,11 +2,13 @@
   "private": true,
   "scripts": {
     "postinstall": "dotnet tool restore",
-    "build": "dotnet fable src --run webpack build"
+    "start": "dotnet fable watch src --define DEBUG --runWatch webpack",
+    "build": "dotnet fable src --run webpack --env production"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.1.1",
     "bulma": "^0.9.3",
+    "chrome-extension-hot-reload": "^0.2.2",
     "copy-webpack-plugin": "^10.2.4",
     "css-loader": "^6.7.1",
     "html-webpack-plugin": "^5.5.0",

@@ -32,18 +32,24 @@ let private view model dispatch =
                             [ img [ Src "img/fulma_logo.svg" ] ]
                           Field.div [ ]
                             [ Label.label [ ]
-                                [ str "Enter your name ?" ]
+                                [ str "Enter your name" ]
                               Control.div [ ]
                                 [ Input.text [ Input.OnChange (fun ev -> dispatch (ChangeValue ev.Value))
                                                Input.Value model.Value
                                                Input.Props [ AutoFocus true ] ] ] ]
                           Content.content [ ]
-                            [ str "Hello, "
+                            [ str "Hello"
                               str model.Value
                               str " "
                               Icon.icon [ ]
                                 [ Fa.i [ Fa.Regular.Smile ]
                                     [ ] ] ] ] ] ] ] ]
+
+open Shared
+
+#if DEBUG
+HotReload.lib.connect()
+#endif
 
 Program.mkProgram init update view
 |> Program.withReactSynchronous "app"
