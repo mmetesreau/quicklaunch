@@ -7,14 +7,8 @@ module.exports = (env) => {
         mode: env.production ? 'production' : 'development',
         devtool: "inline-source-map",
         entry: {
-            commandPalette: [
-                './src/CommandPalette.fs.js',
-                './src/scss/main.scss'
-            ],
-            options: [
-                './src/Options.fs.js',
-                './src/scss/main.scss'
-            ],
+            commandPalette: './src/CommandPalette.fs.js',
+            options: './src/Options.fs.js',
             background: './src/Background.fs.js'
         },
         output: {
@@ -35,18 +29,18 @@ module.exports = (env) => {
             }),
             new CopyWebpackPlugin({
                 patterns: [
-                    { from: './static' },
+                    { from: './public' },
                 ],
             })
         ],
         module: {
             rules: [
                 {
-                    test: /\.s[ac]ss$/i,
+                    test: /\.css$/,
                     use: [
                         'style-loader',
                         'css-loader',
-                        'sass-loader',
+                        'postcss-loader'
                     ],
                 },
             ],

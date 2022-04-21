@@ -28,7 +28,8 @@
         "_execute_browser_action": {
             "suggested_key": {
                 "default": "Ctrl+Shift+F",
-                "mac": "MacCtrl+Shift+F"
+                "mac": "MacCtrl+Shift+F",
+                "linux": "Ctrl+Shift+F"
             }
         }
     }
