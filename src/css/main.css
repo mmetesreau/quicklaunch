@@ -3,3 +3,9 @@
 @tailwind utilities;
 
 @import '~@fortawesome/fontawesome-free/css/all.css';
+
+.app-container {
+    width: 350px;
+    height: 400px;
+    overflow: hidden;
+}
