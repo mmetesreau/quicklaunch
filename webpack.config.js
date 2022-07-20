@@ -29,7 +29,7 @@ module.exports = (env) => {
             }),
             new CopyWebpackPlugin({
                 patterns: [
-                    { from: './public' },
+                    { from: './public' }
                 ],
             })
         ],
