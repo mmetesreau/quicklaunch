@@ -1,76 +1,75 @@
-(function() {
-	'use strict';
-	
-	angular
-		.module('app')
-		.directive('suggest',[
-			function() {
-				return {
-					 restrict: 'AE',
-					 transclude: true,
-					 scope: {
-					 	entry: '=',
-					 	getSuggest: '&'
-					 },
-					 templateUrl: 'suggest.tpl',
-					 link: function (scope, element) {
-					 	scope.suggestValue = '';
+(function () {
+    'use strict';
 
-						var input = element.find('input');
-						 
-					 	var placeholder = element.find('.suggest-placeholder');
-						 						
-					 	placeholder.css('height',input.css('height'));
-					 	placeholder.css('width',input.css('width'));
-						placeholder.css('padding',input.css('padding'));
-					 	placeholder.css('top',parseInt(input.css('borderTopWidth')) + 1);
-					 	placeholder.css('left',input.css('borderLeftWidth'));
-					 	placeholder.css('margin',input.css('margin'));
-					 	placeholder.css('fontFamily',input.css('fontFamily'));
-					 	placeholder.css('fontSize',input.css('fontSize'));
-					 	placeholder.css('fontStyle',input.css('fontStyle'));
-					 	placeholder.css('lineHeight',input.css('lineHeight'));
-					 	placeholder.css('fontStyle',input.css('fontStyle'));
-					 	placeholder.css('fontWeight',input.css('fontWeight'));
-					 	placeholder.css('letterSpacing',input.css('letterSpacing'));
-					 	placeholder.css('backgroundColor',input.css('backgroundColor'));
+    angular
+        .module('app')
+        .directive('suggest', [
+            function () {
+                return {
+                    restrict: 'AE',
+                    transclude: true,
+                    scope: {
+                        entry: '=',
+                        getSuggest: '&'
+                    },
+                    templateUrl: 'suggest.tpl',
+                    link: function (scope, element) {
+                        scope.suggestValue = '';
 
-				 		input.addClass('.suggest-input');
+                        const input = element.find('input');
 
-				 		input.on('keydown', function(e) {
+                        const placeholder = element.find('.suggest-placeholder');
 
-				 				var code = (e.keyCode ? e.keyCode : e.which);
+                        placeholder.css('height', input.css('height'));
+                        placeholder.css('width', input.css('width'));
+                        placeholder.css('padding', input.css('padding'));
+                        placeholder.css('top', parseInt(input.css('borderTopWidth')) + 1);
+                        placeholder.css('left', input.css('borderLeftWidth'));
+                        placeholder.css('margin', input.css('margin'));
+                        placeholder.css('fontFamily', input.css('fontFamily'));
+                        placeholder.css('fontSize', input.css('fontSize'));
+                        placeholder.css('fontStyle', input.css('fontStyle'));
+                        placeholder.css('lineHeight', input.css('lineHeight'));
+                        placeholder.css('fontStyle', input.css('fontStyle'));
+                        placeholder.css('fontWeight', input.css('fontWeight'));
+                        placeholder.css('letterSpacing', input.css('letterSpacing'));
+                        placeholder.css('backgroundColor', input.css('backgroundColor'));
 
-				 				if (code == 9 && !e.altKey) {
-									e.preventDefault();
-								}
-				 			})
-				 			.on('keyup', function(e) {
+                        input.addClass('.suggest-input');
 
-				 				var code = (e.keyCode ? e.keyCode : e.which);
+                        input
+                            .on('keydown', function (e) {
 
-				 				var needle = scope.entry;
+                                const code = (e.keyCode ? e.keyCode : e.which);
 
-				 				if (scope.entry.length > 0) {
-					 				if (code == 9 && scope.suggestValue.length > 0) {
-					 					e.preventDefault();
+                                if (code === 9 && !e.altKey) {
+                                    e.preventDefault();
+                                }
+                            })
+                            .on('keyup', function (e) {
 
-					 					scope.entry = scope.suggestValue;
+                                const code = (e.keyCode ? e.keyCode : e.which);
 
-					 					scope.suggestValue = '';
-					 				} else {
-				 						scope.suggestValue = scope.getSuggest({value: scope.entry});
-					 				}
-				 				} else {
-					 				scope.suggestValue = '';
-				 				}
+                                if (scope.entry.length > 0) {
+                                    if (code === 9 && scope.suggestValue.length > 0) {
+                                        e.preventDefault();
 
-				 				scope.$apply();
-				 			});
+                                        scope.entry = scope.suggestValue;
 
-				 		input.focus();
-					 }
-				};
-			}
-	]);
+                                        scope.suggestValue = '';
+                                    } else {
+                                        scope.suggestValue = scope.getSuggest({value: scope.entry});
+                                    }
+                                } else {
+                                    scope.suggestValue = '';
+                                }
+
+                                scope.$apply();
+                            });
+
+                        input.focus();
+                    }
+                };
+            }
+        ]);
 })();

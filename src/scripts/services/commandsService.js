@@ -1,70 +1,70 @@
-(function() {
-	'use strict';
+(function () {
+    'use strict';
 
-	angular
-		.module('app')
-		.service('commands',['parser','options','ternarySearchTree',
-			function(parser,options,ternarySearchTree) {
+    angular
+        .module('app')
+        .service('commands', ['parser', 'options', 'ternarySearchTree',
+            function (parser, options, ternarySearchTree) {
 
-				return {
-					parse: parse,
-					suggest: suggest
-				};
+                return {
+                    parse: parse,
+                    suggest: suggest
+                };
 
-				function parse(text) {
+                function parse(text) {
 
-					if (!text) {
-						return undefined;
-					}
+                    if (!text) {
+                        return undefined;
+                    }
 
-					var commandParts = parser.run(text);
+                    const commandParts = parser.run(text);
 
-					var commandTags = commandParts.filter(part => !part.startsWith(options.startKey));
-					var commandOptions = commandParts.filter(part => part.startsWith(options.startKey));
+                    const commandTags = commandParts.filter(part => !part.startsWith(options.startKey));
+                    const commandOptions = commandParts.filter(part => part.startsWith(options.startKey));
 
-					var command = {
-						tags: commandTags,
-						options: commandOptions.reduce((pv,option) => { 
+                    const command = {
+                        tags: commandTags,
+                        options: commandOptions.reduce((pv, option) => {
 
-							pv.session 			= pv.session 	|| option === options.session;
-							pv.incognito 		= pv.incognito 	|| option === options.priv;
-							pv.add 				= pv.add 		|| option === options.add;
-							pv.edit 			= pv.edit 		|| option === options.edit;
-							pv.settings 		= pv.settings 	|| option === options.settings;
-							pv.help 			= pv.help 		|| option === options.help;
+                            pv.session = pv.session || option === options.session;
+                            pv.incognito = pv.incognito || option === options.priv;
+                            pv.add = pv.add || option === options.add;
+                            pv.edit = pv.edit || option === options.edit;
+                            pv.settings = pv.settings || option === options.settings;
+                            pv.help = pv.help || option === options.help;
 
-							if (option.startsWith(options.queryString)) {
-								var qs = option.substring(options.queryString.length);
-								if (qs.length > 0) {
-									pv.qs = qs;
-								}
-							}
-		
-							return pv;
-						},{})
-					};
+                            if (option.startsWith(options.queryString)) {
+                                const qs = option.substring(options.queryString.length);
+                                if (qs.length > 0) {
+                                    pv.qs = qs;
+                                }
+                            }
 
-					command.noSuggestion = command.options.add || command.options.settings || command.options.help;
+                            return pv;
+                        }, {})
+                    };
 
-					return command;
-				};
+                    command.noSuggestion = command.options.add || command.options.settings || command.options.help;
 
-				function suggest(lastPart) {
+                    return command;
+                }
 
-	   				var tst = ternarySearchTree.ternarySearchTree();
+                function suggest(lastPart) {
 
-	   				tst.add(options.session);
-	   				tst.add(options.settings);
-	   				tst.add(options.edit);
-	   				tst.add(options.priv);
-	   				tst.add(options.help);
-	   				tst.add(options.add);
-	   				tst.add(options.queryString);
+                    const tst = ternarySearchTree.ternarySearchTree();
 
-	   				var searchResult = tst.prefixSearch(lastPart);
+                    tst.add(options.session);
+                    tst.add(options.settings);
+                    tst.add(options.edit);
+                    tst.add(options.priv);
+                    tst.add(options.help);
+                    tst.add(options.add);
+                    tst.add(options.queryString);
 
-	   				return (!searchResult || searchResult.length === 0 ? '' : searchResult[0]);
-				};
-			}
-		]);
+                    const searchResult = tst.prefixSearch(lastPart);
+
+                    return (!searchResult || searchResult.length === 0 ? '' : searchResult[0]);
+                }
+            }
+        ]);
 })();

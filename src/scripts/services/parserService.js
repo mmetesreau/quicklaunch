@@ -1,43 +1,42 @@
-(function() {
-	'use strict';
+(function () {
+    'use strict';
 
-	var separator = ' ';
-	
-	angular
-		.module('app')
-		.service('parser',[
-			function() {
-				
-				return {
-					run : run
-				};
+    const separator = ' ';
 
-				function run(str) {
-					
-					var entries = [];
-					var entry = '';
+    angular
+        .module('app')
+        .service('parser', [
+            function () {
 
-					for (var i=0;i<str.length;i++) {
-						var letter = str.charAt(i);
+                return {
+                    run: run
+                };
 
-						if (letter === separator) {
-							if (entry !== separator) {
-								entries.push(entry);
-							}
+                function run(str) {
 
-							entry = '';
-						}
-						else {
-							entry += letter;
-						}
-					}
+                    const entries = [];
+                    let entry = '';
 
-					if (entry !== '') {
-						entries.push(entry);
-					}
+                    for (let i = 0; i < str.length; i++) {
+                        const letter = str.charAt(i);
 
-					return entries;
-				};
-			}
-		]);
+                        if (letter === separator) {
+                            if (entry !== separator) {
+                                entries.push(entry);
+                            }
+
+                            entry = '';
+                        } else {
+                            entry += letter;
+                        }
+                    }
+
+                    if (entry !== '') {
+                        entries.push(entry);
+                    }
+
+                    return entries;
+                }
+            }
+        ]);
 })();

@@ -1,160 +1,160 @@
-(function() {
-	'use strict';
+(function () {
+    'use strict';
 
-	var limit = 10,
-		trigger = 2;
+    const limit = 10,
+        trigger = 2;
 
-	angular
-		.module('app')
-		.service('quicklaunch',['suggestions','commands','browser','pages',
-			function(suggestions,commands,browser,pages) {
+    angular
+        .module('app')
+        .service('quicklaunch', ['suggestions', 'commands', 'browser', 'pages',
+            function (suggestions, commands, browser, pages) {
 
-				var query = '';
-				var command = {};
-				var filteredSuggestions = [];
-				var selectedSuggestions = { index: 0 };
+                const query = '';
+                const selectedSuggestions = {index: 0};
+                let command = {};
+                let filteredSuggestions = [];
 
-				return {
-					selectedSuggestions: selectedSuggestions,
-					filterSuggestions: filterSuggestions,
-					selectUp: selectUp,
-					selectDown: selectDown,
-					validAt: validAt,
-					valid: valid,
-					suggestions: suggestions,
-					query: query,
-					getSuggest: getSuggest,
-					getBookmarks: getBookmarks
-				};
-	   			
-				function getSuggest(search) {
+                return {
+                    selectedSuggestions: selectedSuggestions,
+                    filterSuggestions: filterSuggestions,
+                    selectUp: selectUp,
+                    selectDown: selectDown,
+                    validAt: validAt,
+                    valid: valid,
+                    suggestions: suggestions,
+                    query: query,
+                    getSuggest: getSuggest,
+                    getBookmarks: getBookmarks
+                };
 
-					if (!search || search === '') {
-	   					return '';
-					}
+                function getSuggest(search) {
 
-	   				var pos = search.lastIndexOf(' ');
-	   				pos = pos === -1 ? 0 : (pos + 1);
+                    if (!search || search === '') {
+                        return '';
+                    }
 
-	   				var lastPart = search.substring(pos);
+                    let pos = search.lastIndexOf(' ');
+                    pos = pos === -1 ? 0 : (pos + 1);
 
-	   				if (lastPart === '') {
-	   					return '';
-	   				}
+                    const lastPart = search.substring(pos);
 
-	   				var result =  commands.suggest(lastPart);
+                    if (lastPart === '') {
+                        return '';
+                    }
 
-	   				if (result === '') {
-	   					result = suggestions.suggest(lastPart);
-	   				} 
+                    let result = commands.suggest(lastPart);
 
-	   				return result === '' ? '' : search.substring(0,pos) + result;
-				};
+                    if (result === '') {
+                        result = suggestions.suggest(lastPart);
+                    }
 
-				function getBookmarks() {
-					
-					return browser.getBookmarks().then(bookmarkTreeNode => {
-						if(!bookmarkTreeNode) {
-							return [];
-						}
+                    return result === '' ? '' : search.substring(0, pos) + result;
+                }
 
-						var bookmarks = [];
+                function getBookmarks() {
 
-						var parser = function(node, path) {
+                    return browser.getBookmarks().then(bookmarkTreeNode => {
+                        if (!bookmarkTreeNode) {
+                            return [];
+                        }
 
-							path = path.slice();
+                        const bookmarks = [];
 
-							if (node.title) {
-								var normalizedTitle = node.title.toLowerCase().trim();
-								if (path.indexOf(normalizedTitle) === -1) {
-									path.push(normalizedTitle);
-								}
-							}
+                        const parser = function (node, path) {
 
-							if (node.children) {
-								node.children.forEach(child => parser(child,path));
-							} else if(node.url) {
-								var exist = suggestions.all.some(suggestion => suggestion.uri === node.url);
-								if (!exist) {
-									bookmarks.push({uri: node.url, tags: path});
-								}
-							}
-  						};
+                            path = path.slice();
 
-						bookmarkTreeNode.forEach(node => parser(node,[]));
-						return bookmarks;
-					});
-				};
+                            if (node.title) {
+                                const normalizedTitle = node.title.toLowerCase().trim();
+                                if (path.indexOf(normalizedTitle) === -1) {
+                                    path.push(normalizedTitle);
+                                }
+                            }
 
-				function filterSuggestions(search) {
+                            if (node.children) {
+                                node.children.forEach(child => parser(child, path));
+                            } else if (node.url) {
+                                const exist = suggestions.all.some(suggestion => suggestion.uri === node.url);
+                                if (!exist) {
+                                    bookmarks.push({uri: node.url, tags: path});
+                                }
+                            }
+                        };
 
-					command = commands.parse(search);
+                        bookmarkTreeNode.forEach(node => parser(node, []));
+                        return bookmarks;
+                    });
+                }
 
-					if (!command || command.noSuggestion || command.tags.length === 0 || command.tags.join('').length < trigger) {
-						return [];
-					}
+                function filterSuggestions(search) {
 
-					filteredSuggestions = suggestions.all.filter(suggestion => {
-						return command.tags.every(commandTag => {
-							return suggestion.tags.some(tag => tag.indexOf(commandTag) !== -1);
-						});
-					}).slice(0,limit);
+                    command = commands.parse(search);
 
-					if (selectedSuggestions.index >= filteredSuggestions.length) {
-						selectedSuggestions.index = 0;
-					}
+                    if (!command || command.noSuggestion || command.tags.length === 0 || command.tags.join('').length < trigger) {
+                        return [];
+                    }
 
-					return filteredSuggestions;
-				};
+                    filteredSuggestions = suggestions.all.filter(suggestion => {
+                        return command.tags.every(commandTag => {
+                            return suggestion.tags.some(tag => tag.indexOf(commandTag) !== -1);
+                        });
+                    }).slice(0, limit);
 
-				function selectUp() {
+                    if (selectedSuggestions.index >= filteredSuggestions.length) {
+                        selectedSuggestions.index = 0;
+                    }
 
-					if (selectedSuggestions.index - 1 >= 0) {
-						selectedSuggestions.index = selectedSuggestions.index - 1;
-					}
-				};
+                    return filteredSuggestions;
+                }
 
-				function selectDown() {
+                function selectUp() {
 
-					if (selectedSuggestions.index + 1 < filteredSuggestions.length) {
-						selectedSuggestions.index = selectedSuggestions.index + 1;
-					}
-				};
+                    if (selectedSuggestions.index - 1 >= 0) {
+                        selectedSuggestions.index = selectedSuggestions.index - 1;
+                    }
+                }
 
-				function valid() {
-					
-					var tags = command.tags;
+                function selectDown() {
 
-					if (command.options.add) {	
-						browser.getCurrentTab().then(url => suggestions.add({ uri: url, tags: tags }, true));
-					} else if (command.options.session && filteredSuggestions.length > 0) {
-						browser.openSessionTab(filteredSuggestions.map(fs => fs.uri),command.options.incognito);
-					} else if (command.options.settings) {
-						browser.openTab(pages.optionsDefault); 
-					} else if (command.options.help)  {
-						browser.openTab(pages.optionsHelp);
-					} else if (command.options.edit && command.tags.length === 0) {
-						browser.getCurrentTab().then(url => browser.openTab(pages.optionsSearch + url));
-					} else if (command.options.edit && selectedSuggestions.index < filteredSuggestions.length) {
-						browser.openTab(pages.optionsSearch + filteredSuggestions[selectedSuggestions.index].uri);
-					} else if (selectedSuggestions.index < filteredSuggestions.length){
-						validAt(selectedSuggestions.index);
-					} else {
-						browser.notify(browser.translate('errorUnknow'));
-					}
-				};
+                    if (selectedSuggestions.index + 1 < filteredSuggestions.length) {
+                        selectedSuggestions.index = selectedSuggestions.index + 1;
+                    }
+                }
 
-				function validAt(index) {
+                function valid() {
 
-					var suggestion = filteredSuggestions[index];
-					var uri = suggestion.uri;
+                    const tags = command.tags;
 
-					if (command.options.qs) {
-						uri += command.options.qs;
-					}
-					
-					browser.openTab(uri,command.options.incognito);
-				};		
-			}
-		]);
+                    if (command.options.add) {
+                        browser.getCurrentTab().then(url => suggestions.add({uri: url, tags: tags}, true));
+                    } else if (command.options.session && filteredSuggestions.length > 0) {
+                        browser.openSessionTab(filteredSuggestions.map(fs => fs.uri), command.options.incognito);
+                    } else if (command.options.settings) {
+                        browser.openTab(pages.optionsDefault);
+                    } else if (command.options.help) {
+                        browser.openTab(pages.optionsHelp);
+                    } else if (command.options.edit && command.tags.length === 0) {
+                        browser.getCurrentTab().then(url => browser.openTab(pages.optionsSearch + url));
+                    } else if (command.options.edit && selectedSuggestions.index < filteredSuggestions.length) {
+                        browser.openTab(pages.optionsSearch + filteredSuggestions[selectedSuggestions.index].uri);
+                    } else if (selectedSuggestions.index < filteredSuggestions.length) {
+                        validAt(selectedSuggestions.index);
+                    } else {
+                        browser.notify(browser.translate('errorUnknow'));
+                    }
+                }
+
+                function validAt(index) {
+
+                    const suggestion = filteredSuggestions[index];
+                    let uri = suggestion.uri;
+
+                    if (command.options.qs) {
+                        uri += command.options.qs;
+                    }
+
+                    browser.openTab(uri, command.options.incognito);
+                }
+            }
+        ]);
 })();

@@ -1,165 +1,165 @@
-(function() {
-	'use strict';
-	
-	var storageKey = 'suggestions',
-	syncStorageKey = 'suggestions';
+(function () {
+    'use strict';
 
-	angular
-		.module('app')
-		.service('suggestions',['$timeout','browser','storageTypes','ternarySearchTree',
-			function($timeout,browser,storageTypes,ternarySearchTree) {
+    const storageKey = 'suggestions',
+        syncStorageKey = 'suggestions';
 
-				var suggestions = [];
-				var storageType = storageTypes.local;
+    angular
+        .module('app')
+        .service('suggestions', ['$timeout', 'browser', 'storageTypes', 'ternarySearchTree',
+            function ($timeout, browser, storageTypes, ternarySearchTree) {
 
-				return {
-					all: suggestions,
-					load: load,
-					save: save,
-					add: add,
-					remove: remove,
-					exportAll: exportAll,
-					importAll: importAll,
-					storageType: getSetstorageType,
-					storageTypes: storageTypes,
-					suggest: suggest
-				};
+                const suggestions = [];
+                let storageType = storageTypes.local;
 
-				function suggest(lastPart) {
+                return {
+                    all: suggestions,
+                    load: load,
+                    save: save,
+                    add: add,
+                    remove: remove,
+                    exportAll: exportAll,
+                    importAll: importAll,
+                    storageType: getSetstorageType,
+                    storageTypes: storageTypes,
+                    suggest: suggest
+                };
 
-	   				var tst = ternarySearchTree.ternarySearchTree();
+                function suggest(lastPart) {
 
-	   				suggestions.forEach(suggestion => {
-	   					if (suggestion.tags)
-	   						tst.addRange(suggestion.tags);
-	   				});
+                    const tst = ternarySearchTree.ternarySearchTree();
 
-	   				var searchResult = tst.prefixSearch(lastPart);
+                    suggestions.forEach(suggestion => {
+                        if (suggestion.tags)
+                            tst.addRange(suggestion.tags);
+                    });
 
-	   				if (!searchResult || searchResult.length == 0) {
-	   					return '';
-	   				} else {
-	   					return searchResult[0];
-	   				}
-				};
+                    const searchResult = tst.prefixSearch(lastPart);
 
-				function getSetstorageType(newValue) {
+                    if (!searchResult || searchResult.length === 0) {
+                        return '';
+                    } else {
+                        return searchResult[0];
+                    }
+                }
 
-					if (angular.isDefined(newValue)) {
-						storageType = newValue;
-						save();
-						browser.notify(browser.translate(storageType === storageTypes.local ? 'confirmLocalStorage' : 'confirmSyncStorage'));
-					}
+                function getSetstorageType(newValue) {
 
-					return storageType;
-				};
+                    if (angular.isDefined(newValue)) {
+                        storageType = newValue;
+                        save();
+                        browser.notify(browser.translate(storageType === storageTypes.local ? 'confirmLocalStorage' : 'confirmSyncStorage'));
+                    }
 
-				function load() {
+                    return storageType;
+                }
 
-					browser.getSyncStorage(syncStorageKey).then(syncData => {
-						if (!syncData.storageType || syncData.storageType === storageTypes.local) {
-							browser.getStorage(storageKey).then(data => {
-								$timeout(() => {
-									data.forEach(suggestion => suggestions.push(suggestion));
-								});
-							});
-						} else {
-							storageType = syncData.storageType;
-							$timeout(() => {
-								syncData[storageKey].forEach(suggestion => suggestions.push(suggestion));
-							});
-						}
-					});
-				};
+                function load() {
 
-				function save() {
+                    browser.getSyncStorage(syncStorageKey).then(syncData => {
+                        if (!syncData.storageType || syncData.storageType === storageTypes.local) {
+                            browser.getStorage(storageKey).then(data => {
+                                $timeout(() => {
+                                    data.forEach(suggestion => suggestions.push(suggestion));
+                                });
+                            });
+                        } else {
+                            storageType = syncData.storageType;
+                            $timeout(() => {
+                                syncData[storageKey].forEach(suggestion => suggestions.push(suggestion));
+                            });
+                        }
+                    });
+                }
 
-					var syncData = {}, data = {};
+                function save() {
 
-					data[storageKey] = suggestions || [];
-					syncData[syncStorageKey] = {
-						storageType: storageType
-					};
+                    const syncData = {}, data = {};
 
-					if (storageType === storageTypes.local) {
-						browser.setStorage(data);
-					} else {
-						browser.removeStorage(storageKey);
-						syncData[syncStorageKey][storageKey] = suggestions || [];
-					}
+                    data[storageKey] = suggestions || [];
+                    syncData[syncStorageKey] = {
+                        storageType: storageType
+                    };
 
-					browser.setSyncStorage(syncData);
-				};
+                    if (storageType === storageTypes.local) {
+                        browser.setStorage(data);
+                    } else {
+                        browser.removeStorage(storageKey);
+                        syncData[syncStorageKey][storageKey] = suggestions || [];
+                    }
 
-				function add(newSuggestion, showNotification) {
+                    browser.setSyncStorage(syncData);
+                }
 
-					var exist = suggestions.some(suggestion => suggestion.uri === newSuggestion.uri);
-					
-					if (exist) {
-						if (showNotification) {
-							browser.notify(browser.translate('errorSuggestionExist'));
-						}
-					} else {
-						suggestions.push({ uri: newSuggestion.uri, tags: newSuggestion.tags || [] });
-						
-						save();
-					}
-				};
+                function add(newSuggestion, showNotification) {
 
-				function remove(suggestion) {
+                    const exist = suggestions.some(suggestion => suggestion.uri === newSuggestion.uri);
 
-					var index = suggestions.indexOf(suggestion);
-					
-					if (index !== -1) {
-						suggestions.splice(index, 1);
-						save();
-					}
-				};
+                    if (exist) {
+                        if (showNotification) {
+                            browser.notify(browser.translate('errorSuggestionExist'));
+                        }
+                    } else {
+                        suggestions.push({uri: newSuggestion.uri, tags: newSuggestion.tags || []});
 
-				function exportAll() {
+                        save();
+                    }
+                }
 
-					return JSON.stringify(suggestions.map(suggestion => { 
-						return { 
-							uri: suggestion.uri, 
-							tags: suggestion.tags 
-						};
-					}),null,"    ");
-				};
+                function remove(suggestion) {
 
-				function importAll(text) {
+                    const index = suggestions.indexOf(suggestion);
 
-					if (!text) {
-						browser.notify(browser.translate('errorUnknow'));
-						return;
-					}
+                    if (index !== -1) {
+                        suggestions.splice(index, 1);
+                        save();
+                    }
+                }
 
-					try {
-						var parsedSuggestions = JSON.parse(text);
+                function exportAll() {
 
-						if (!parsedSuggestions || parsedSuggestions.constructor !== Array) {
-							return;
-						}
+                    return JSON.stringify(suggestions.map(suggestion => {
+                        return {
+                            uri: suggestion.uri,
+                            tags: suggestion.tags
+                        };
+                    }), null, "    ");
+                }
 
-						var isASuggestion = suggestion => suggestion !== null && typeof suggestion === 'object' && suggestion.uri && (typeof suggestion.uri === 'string' || suggestion.uri instanceof String) && suggestion.tags && suggestion.tags.constructor === Array;
-						
-						parsedSuggestions.forEach(parsedSuggestion => {
-							
-							if (isASuggestion(parsedSuggestion)) {
-								if (!suggestions.some(suggestion => suggestion.uri === parsedSuggestion.uri)) {								
-									suggestions.push(parsedSuggestion);
-								} else {
-									browser.notify(browser.translate('errorSuggestionExist'));
-								}
-							} else {
-								browser.notify(browser.translate('errorSuggestionMisformatted'));
-							}
-						});
+                function importAll(text) {
 
-						save();
-					} catch(e) {
-						browser.notify(browser.translate('errorUnknow'));
-					}
-				};
-			}
-		]);
+                    if (!text) {
+                        browser.notify(browser.translate('errorUnknow'));
+                        return;
+                    }
+
+                    try {
+                        const parsedSuggestions = JSON.parse(text);
+
+                        if (!parsedSuggestions || parsedSuggestions.constructor !== Array) {
+                            return;
+                        }
+
+                        const isASuggestion = suggestion => suggestion !== null && typeof suggestion === 'object' && suggestion.uri && (typeof suggestion.uri === 'string' || suggestion.uri instanceof String) && suggestion.tags && suggestion.tags.constructor === Array;
+
+                        parsedSuggestions.forEach(parsedSuggestion => {
+
+                            if (isASuggestion(parsedSuggestion)) {
+                                if (!suggestions.some(suggestion => suggestion.uri === parsedSuggestion.uri)) {
+                                    suggestions.push(parsedSuggestion);
+                                } else {
+                                    browser.notify(browser.translate('errorSuggestionExist'));
+                                }
+                            } else {
+                                browser.notify(browser.translate('errorSuggestionMisformatted'));
+                            }
+                        });
+
+                        save();
+                    } catch (e) {
+                        browser.notify(browser.translate('errorUnknow'));
+                    }
+                }
+            }
+        ]);
 })();

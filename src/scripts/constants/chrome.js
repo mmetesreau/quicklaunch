@@ -1,7 +1,7 @@
-(function() {
-	'use strict';
+(function () {
+    'use strict';
 
-	angular
-		.module('app')
-		.value('chrome',window.chrome);
+    angular
+        .module('app')
+        .value('chrome', window.chrome);
 })();

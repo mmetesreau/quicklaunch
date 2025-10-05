@@ -1,149 +1,150 @@
-(function() {
-	'use strict';
-	
-	angular
-		.module('app')
-		.service('ternarySearchTree',[
-			function() {
-				
-				return {
-					ternarySearchTree: ternarySearchTree
-				};
+(function () {
+    'use strict';
 
-				function ternarySearchTree() {
-				  var root,
-				      numWords = 0,
-				      numNodes = 0;
+    angular
+        .module('app')
+        .service('ternarySearchTree', [
+            function () {
 
-				  function insert(node, chars) {
-				    var firstChar = chars.charAt(0),
-				        node;
+                return {
+                    ternarySearchTree: ternarySearchTree
+                };
 
-				    if (!firstChar) return null;
+                function ternarySearchTree() {
+                    let root,
+                        numWords = 0,
+                        numNodes = 0;
 
-				    if (!node) {
-				      node = {
-				        character: firstChar,
-				        left: null,
-				        middle: null,
-				        right: null,
-				        word: false
-				      };
-				      numNodes += 1;
-				    }
+                    function insert(node, chars) {
+                        var firstChar = chars.charAt(0),
+                            node;
 
-				    if (!root) root = node;
+                        if (!firstChar) return null;
 
-				    if (firstChar < node.character) {
-				      node.left = insert(node.left, chars);
-				    } else if (firstChar === node.character) {
-				      if (chars.length > 1) {
-				        node.middle = insert(node.middle, chars.slice(1));
-				      } else {
-				        node.word = true;
-				        numWords += 1;
-				      }
-				    } else {
-				      node.right = insert(node.right, chars);
-				    }
+                        if (!node) {
+                            node = {
+                                character: firstChar,
+                                left: null,
+                                middle: null,
+                                right: null,
+                                word: false
+                            };
+                            numNodes += 1;
+                        }
 
-				    return node;
-				  }
+                        if (!root) root = node;
 
-				  function search(node, chars) {
-				    var firstChar = chars.charAt(0),
-				        rest;
+                        if (firstChar < node.character) {
+                            node.left = insert(node.left, chars);
+                        } else if (firstChar === node.character) {
+                            if (chars.length > 1) {
+                                node.middle = insert(node.middle, chars.slice(1));
+                            } else {
+                                node.word = true;
+                                numWords += 1;
+                            }
+                        } else {
+                            node.right = insert(node.right, chars);
+                        }
 
-				    if (!node || !firstChar) return null;
+                        return node;
+                    }
 
-				    if (firstChar < node.character) {
-				      return search(node.left, chars);
-				    } else if (firstChar > node.character) {
-				      return search(node.right, chars);
-				    } else {
-				      rest = chars.slice(1);
-				      if (!rest) {
-				        return node;
-				      } else {
-				        return search(node.middle, rest);
-				      }
-				    }
+                    function search(node, chars) {
+                        var firstChar = chars.charAt(0),
+                            rest;
 
-				    return null;
-				  }
+                        if (!node || !firstChar) return null;
 
-				  function childWords(node, prefix, limit) {
-				    var foundWords = [],
-				        parentNode,
-				        traversalData = {
-				          foundWords: foundWords,
-				          prefix: prefix
-				        };
+                        if (firstChar < node.character) {
+                            return search(node.left, chars);
+                        } else if (firstChar > node.character) {
+                            return search(node.right, chars);
+                        } else {
+                            rest = chars.slice(1);
+                            if (!rest) {
+                                return node;
+                            } else {
+                                return search(node.middle, rest);
+                            }
+                        }
 
-				    if (!node || !prefix) return foundWords;
+                        return null;
+                    }
 
-				    parentNode = search(node, prefix);
+                    function childWords(node, prefix, limit) {
+                        var foundWords = [],
+                            parentNode,
+                            traversalData = {
+                                foundWords: foundWords,
+                                prefix: prefix
+                            };
 
-				    if (!parentNode) return foundWords;
+                        if (!node || !prefix) return foundWords;
 
-				    depthFirstTraversal(parentNode.middle, function(node, data) {
-				      if (data.foundWords.length >= limit) return null;
+                        parentNode = search(node, prefix);
 
-				      data = {
-				        foundWords: data.foundWords,
-				        prefix: data.prefix + node.character
-				      };
+                        if (!parentNode) return foundWords;
 
-				      if (node.word) data.foundWords.push(data.prefix);
+                        depthFirstTraversal(parentNode.middle, function (node, data) {
+                            if (data.foundWords.length >= limit) return null;
 
-				      return data;
-				    }, traversalData);
+                            data = {
+                                foundWords: data.foundWords,
+                                prefix: data.prefix + node.character
+                            };
 
-				    return foundWords;
-				  }
+                            if (node.word) data.foundWords.push(data.prefix);
 
-				  function depthFirstTraversal(node, visit, data) {
-				    var modifiedData;
+                            return data;
+                        }, traversalData);
 
-				    if (!node || data === null) return;
+                        return foundWords;
+                    }
 
-				    if (node.left) depthFirstTraversal(node.left, visit, data);
-				    modifiedData = visit(node, data);
-				    if (node.middle) depthFirstTraversal(node.middle, visit, modifiedData);
-				    if (node.right) depthFirstTraversal(node.right, visit, data);
-				  }
+                    function depthFirstTraversal(node, visit, data) {
+                        var modifiedData;
 
-				  return {
-				    getRoot: function() {
-				      return root;
-				    },
-				    wordCount: function() {
-				      return numWords;
-				    },
-				    nodeCount: function() {
-				      return numNodes;
-				    },
-				    add: function(word) {
-				      insert(root, word);
-				    },
-				    addRange: function(words) {
-				      words.forEach(function(word) { insert(root, word); });
-				    },
-				    has: function(prefix, isWord) {
-				      var foundNode = search(root, prefix);
-				      return foundNode
-				        ? isWord ? foundNode.word : true
-				        : false;
-				    },
-				    prefixSearch: function(prefix, limit) {
-				      return childWords(root, prefix, limit);
-				    },
-				    traverse: function(visit, data) {
-				      depthFirstTraversal(root, visit, data);
-				    }
-				  }
-				};
+                        if (!node || data === null) return;
 
-			}
-		]);
+                        if (node.left) depthFirstTraversal(node.left, visit, data);
+                        modifiedData = visit(node, data);
+                        if (node.middle) depthFirstTraversal(node.middle, visit, modifiedData);
+                        if (node.right) depthFirstTraversal(node.right, visit, data);
+                    }
+
+                    return {
+                        getRoot: function () {
+                            return root;
+                        },
+                        wordCount: function () {
+                            return numWords;
+                        },
+                        nodeCount: function () {
+                            return numNodes;
+                        },
+                        add: function (word) {
+                            insert(root, word);
+                        },
+                        addRange: function (words) {
+                            words.forEach(function (word) {
+                                insert(root, word);
+                            });
+                        },
+                        has: function (prefix, isWord) {
+                            const foundNode = search(root, prefix);
+                            return foundNode
+                                ? isWord ? foundNode.word : true
+                                : false;
+                        },
+                        prefixSearch: function (prefix, limit) {
+                            return childWords(root, prefix, limit);
+                        },
+                        traverse: function (visit, data) {
+                            depthFirstTraversal(root, visit, data);
+                        }
+                    }
+                }
+            }
+        ]);
 })();

@@ -1,67 +1,67 @@
-(function() {
-	'use strict';
+(function () {
+    'use strict';
 
-	var queryHelpTab = 'help';	
+    const queryHelpTab = 'help';
 
-	angular
-		.module('app')
-		.controller('optionsCtrl',['$scope','$modal','$location','quicklaunch','browser',
-			function($scope,$modal,$location,quicklaunch,browser) {
-				
-				quicklaunch.suggestions.load();
-				
-				$scope.ql = quicklaunch;
-				$scope.browser = browser;
+    angular
+        .module('app')
+        .controller('optionsCtrl', ['$scope', '$modal', '$location', 'quicklaunch', 'browser',
+            function ($scope, $modal, $location, quicklaunch, browser) {
 
-				var params = $location.search();
+                quicklaunch.suggestions.load();
 
-				if (params.q) {
-					$scope.q = params.q;
-				}
+                $scope.ql = quicklaunch;
+                $scope.browser = browser;
 
-				if (params.tab && params.tab === queryHelpTab) {
-					$scope.helpTabIsActive = true;
-				} else {
-					$scope.suggestionsTabIsActive = true;
-				}
+                const params = $location.search();
 
-				$scope.newSuggestion = { uri: '', tags: [] };
-				
-				$scope.clearSuggestion = function(suggestion) {
-					
-					suggestion.uri = ''; 
-					suggestion.tags = []; 
-				};
+                if (params.q) {
+                    $scope.q = params.q;
+                }
 
-				$scope.exportSuggestions = function() {
-					$modal.open({
-						size: 'lg',
-						templateUrl: 'modalExport.tpl',
-						controller: 'modalExportCtrl'
-					});
-				};
+                if (params.tab && params.tab === queryHelpTab) {
+                    $scope.helpTabIsActive = true;
+                } else {
+                    $scope.suggestionsTabIsActive = true;
+                }
 
-				$scope.importSuggestions = function() {
-					$modal.open({
-						size: 'lg',
-						templateUrl: 'modalImport.tpl',
-						controller: 'modalImportCtrl'
-					});
-				};
+                $scope.newSuggestion = {uri: '', tags: []};
 
-				$scope.importBookmarks = function() {
-					$modal.open({
-						size: 'lg',
-						resolve: {
-							bookmarks: ['quicklaunch',function(quicklaunch) {
-								return quicklaunch.getBookmarks()
-							}]
-						},
-						windowClass: 'scroll-modal',
-						templateUrl: 'modalBookmarks.tpl',
-						controller: 'modalBookmarksCtrl'
-					});
-				};
-		}
-	]);
+                $scope.clearSuggestion = function (suggestion) {
+
+                    suggestion.uri = '';
+                    suggestion.tags = [];
+                };
+
+                $scope.exportSuggestions = function () {
+                    $modal.open({
+                        size: 'lg',
+                        templateUrl: 'modalExport.tpl',
+                        controller: 'modalExportCtrl'
+                    });
+                };
+
+                $scope.importSuggestions = function () {
+                    $modal.open({
+                        size: 'lg',
+                        templateUrl: 'modalImport.tpl',
+                        controller: 'modalImportCtrl'
+                    });
+                };
+
+                $scope.importBookmarks = function () {
+                    $modal.open({
+                        size: 'lg',
+                        resolve: {
+                            bookmarks: ['quicklaunch', function (quicklaunch) {
+                                return quicklaunch.getBookmarks()
+                            }]
+                        },
+                        windowClass: 'scroll-modal',
+                        templateUrl: 'modalBookmarks.tpl',
+                        controller: 'modalBookmarksCtrl'
+                    });
+                };
+            }
+        ]);
 })();

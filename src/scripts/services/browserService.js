@@ -1,125 +1,125 @@
-(function() {
-	'use strict';
+(function () {
+    'use strict';
 
-	var notificationTemplate = { type: 'basic', title: 'Quicklaunch', message: '', iconUrl: '/icons/icon16.png'};
+    const notificationTemplate = {type: 'basic', title: 'Quicklaunch', message: '', iconUrl: '/icons/icon16.png'};
 
-	angular
-		.module('app')
-		.service('browser',['$q','chrome',
-			function($q,chrome) {
-				
-				return {
-					notify: notify,
-					translate: translate,
-					openTab: openTab,
-					openSessionTab: openSessionTab,
-					getCurrentTab: getCurrentTab,
-					setStorage: setStorage,
-					getStorage: getStorage,
-					setSyncStorage: setSyncStorage,
-					getSyncStorage: getSyncStorage,
-					removeStorage: removeStorage,
-					getBookmarks: getBookmarks
-				};
+    angular
+        .module('app')
+        .service('browser', ['$q', 'chrome',
+            function ($q, chrome) {
 
-				function openTab(url, incognito) {
+                return {
+                    notify: notify,
+                    translate: translate,
+                    openTab: openTab,
+                    openSessionTab: openSessionTab,
+                    getCurrentTab: getCurrentTab,
+                    setStorage: setStorage,
+                    getStorage: getStorage,
+                    setSyncStorage: setSyncStorage,
+                    getSyncStorage: getSyncStorage,
+                    removeStorage: removeStorage,
+                    getBookmarks: getBookmarks
+                }
 
-					if (incognito) {
-						chrome.windows.create({ url: url, incognito: true });
-					} else {
-						chrome.tabs.create({ url: url });
-					}
-				};
+                function openTab(url, incognito) {
 
-				function openSessionTab(urls, incognito) {
-					
-					chrome.windows.create({ url: urls, incognito: incognito });
-				};
+                    if (incognito) {
+                        chrome.windows.create({url: url, incognito: true});
+                    } else {
+                        chrome.tabs.create({url: url});
+                    }
+                }
 
-				function getCurrentTab() {
+                function openSessionTab(urls, incognito) {
 
-					var deferred = $q.defer();
+                    chrome.windows.create({url: urls, incognito: incognito});
+                }
 
-					chrome.tabs.query({ currentWindow: true, active: true }, tabs => {
-						deferred.resolve(tabs[0].url);
-					});
+                function getCurrentTab() {
 
-					return deferred.promise;
-				};
+                    const deferred = $q.defer();
 
-				function removeStorage(key) {
+                    chrome.tabs.query({currentWindow: true, active: true}, tabs => {
+                        deferred.resolve(tabs[0].url);
+                    });
 
-					chrome.storage.local.remove(key);
-				};
+                    return deferred.promise;
+                }
 
-				function setStorage(data) {
+                function removeStorage(key) {
 
-					chrome.storage.local.set(data);
-				};
+                    chrome.storage.local.remove(key);
+                }
 
-				function getStorage(key) {
+                function setStorage(data) {
 
-					var deferred = $q.defer();
+                    chrome.storage.local.set(data);
+                }
 
-					chrome.storage.local.get(storage => {
-						if (storage && storage[key]) {
-							deferred.resolve(storage[key]);
-						} else {
-							deferred.resolve([]);
-						}
-					});
+                function getStorage(key) {
 
-					return deferred.promise;
-				};
+                    const deferred = $q.defer();
 
-				function setSyncStorage(data) {
+                    chrome.storage.local.get(storage => {
+                        if (storage && storage[key]) {
+                            deferred.resolve(storage[key]);
+                        } else {
+                            deferred.resolve([]);
+                        }
+                    });
 
-					chrome.storage.sync.set(data);
-				};
+                    return deferred.promise;
+                }
 
-				function getSyncStorage(key) {
+                function setSyncStorage(data) {
 
-					var deferred = $q.defer();
+                    chrome.storage.sync.set(data);
+                }
 
-					chrome.storage.sync.get(storage => {
-						if (storage && storage[key]) {
-							deferred.resolve(storage[key]);
-						} else {
-							deferred.resolve({});
-						}
-					});
+                function getSyncStorage(key) {
 
-					return deferred.promise;
-				};
+                    const deferred = $q.defer();
 
-				function notify(message) {
+                    chrome.storage.sync.get(storage => {
+                        if (storage && storage[key]) {
+                            deferred.resolve(storage[key]);
+                        } else {
+                            deferred.resolve({});
+                        }
+                    });
 
-					var notification = angular.copy(notificationTemplate);
+                    return deferred.promise;
+                }
 
-					notification.message = message;
+                function notify(message) {
 
-					chrome.notifications.create(notification);
-				};
+                    const notification = angular.copy(notificationTemplate);
 
-				function translate(key) {
-					
-					return chrome.i18n.getMessage(key);
-				};
+                    notification.message = message;
 
-				function getBookmarks() {
+                    chrome.notifications.create(notification);
+                }
 
-					var deferred = $q.defer();
+                function translate(key) {
 
-					chrome.bookmarks.getTree(bookmarkTreeNode => {
-						if (bookmarkTreeNode) {
-							deferred.resolve(bookmarkTreeNode);
-						} else {
-							deferred.resolve([]);
-						}
-					});
+                    return chrome.i18n.getMessage(key);
+                }
 
-					return deferred.promise;
-				};
-			}
-		]);
+                function getBookmarks() {
+
+                    const deferred = $q.defer();
+
+                    chrome.bookmarks.getTree(bookmarkTreeNode => {
+                        if (bookmarkTreeNode) {
+                            deferred.resolve(bookmarkTreeNode);
+                        } else {
+                            deferred.resolve([]);
+                        }
+                    });
+
+                    return deferred.promise;
+                }
+            }
+        ]);
 })();
