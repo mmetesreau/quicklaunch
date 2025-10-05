@@ -2,25 +2,26 @@
   "name": "__MSG_appName__",
   "description": "__MSG_appDesc__",
   "default_locale": "en",
-  "version": "2.1",
-  "manifest_version": 2,
+  "version": "3.0.0",
+  "manifest_version": 3,
   "permissions": [
-  	"storage",
+    "storage",
     "tabs",
     "notifications",
     "bookmarks"
   ],
   "options_page": "options.html",
-  "browser_action": {
+  "action": {
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "24": "icons/icon24.png",
+      "32": "icons/icon32.png"
+    },
+    "default_title": "Quicklaunch",
     "default_popup": "browser_action.html"
   },
-  "icons": { 
-  	"16": "icons/icon16.png",    
-    "48": "icons/icon48.png",     
-    "128": "icons/icon128.png" 
-  },
   "commands": {
-    "_execute_browser_action": {
+    "_execute_action": {
       "suggested_key": {
         "default": "Ctrl+Shift+F",
         "mac": "MacCtrl+Shift+F"
