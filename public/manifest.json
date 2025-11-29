@@ -1,25 +1,25 @@
-{
+﻿{
+  "manifest_version": 3,
   "name": "__MSG_appName__",
   "description": "__MSG_appDesc__",
-  "default_locale": "en",
   "version": "3.0.0",
-  "manifest_version": 3,
+  "default_locale": "en",
+  "action": {
+    "default_icon": {
+      "16": "images/icon16.png",
+      "24": "images/icon24.png",
+      "32": "images/icon32.png"
+    },
+    "default_title": "Quicklaunch",
+    "default_popup": "index.html"
+  },
+  "options_page": "options.html",
   "permissions": [
     "storage",
     "tabs",
     "notifications",
     "bookmarks"
   ],
-  "options_page": "options.html",
-  "action": {
-    "default_icon": {
-      "16": "icons/icon16.png",
-      "24": "icons/icon24.png",
-      "32": "icons/icon32.png"
-    },
-    "default_title": "Quicklaunch",
-    "default_popup": "browser_action.html"
-  },
   "commands": {
     "_execute_action": {
       "suggested_key": {
